@@ -1,0 +1,26 @@
+{
+  "name": "syrinscape-control",
+  "version": "1.0.0",
+  "description": "SyrinScape Controller",
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "createSymlinks": "node ./tools/create-symlinks.mjs",
+    "postinstall": "npm run createSymlinks"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MetaMorphic-Digital/syrinscape-control.git"
+  },
+  "keywords": [
+    "fvtt",
+    "module"
+  ],
+  "bugs": {
+    "url": "https://github.com/MetaMorphic-Digital/syrinscape-control"
+  },
+  "homepage": "https://github.com/MetaMorphic-Digital/syrinscape-control",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "rollup": "^4.17.2"
+  }
+}

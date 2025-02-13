@@ -1,0 +1,41 @@
+{
+  "id": "syrinscape-control",
+  "title": "SyrinScape Controller",
+  "version": "AUTOMATIC",
+  "authors": [
+    {
+      "name": "Zhell",
+      "discord": "zhell9201"
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "esmodules": [
+    "./setup.mjs"
+  ],
+  "styles": [
+    "styles/styles.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    }
+  ],
+  "flags": {
+    "hotReload": {
+      "extensions": [
+        "css"
+      ],
+      "paths": [
+        "./styles/styles.css"
+      ]
+    }
+  },
+  "url": "https://github.com/MetaMorphic-Digital/syrinscape-control",
+  "manifest": "https://github.com/MetaMorphic-Digital/syrinscape-control/releases/latest/download/module.json",
+  "download": "AUTOMATIC"
+}
