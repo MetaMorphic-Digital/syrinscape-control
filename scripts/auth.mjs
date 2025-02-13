@@ -1,6 +1,7 @@
 import { moduleId } from "./constants.mjs";
 
 export default class AuthManager {
+
   /**
    * The session token to be used
    * @type {string}

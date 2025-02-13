@@ -11,6 +11,7 @@ export default class SyrinScapeSettingsHandler {
         type: new fields.StringField({ blank: false }),
         scope: "client",
         config: true,
+        onChange: () => syrinscapeControl.auth.initialize(),
       },
     };
   }
