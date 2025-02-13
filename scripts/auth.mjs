@@ -8,16 +8,20 @@ export default class AuthManager {
    */
   sessionToken;
 
+  /* -------------------------------------------------- */
+
   /**
    * The session ID
    * @type {string}
    */
   sessionId;
 
+  /* -------------------------------------------------- */
+
   async initialize() {
     const token = game.settings.get(moduleId, "authToken");
 
-    if (!token) throw new Error("No auth token!");
+    if (!token) throw new Error("SyrinScape Controller | No auth token!");
 
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
@@ -31,13 +35,15 @@ export default class AuthManager {
 
     const response = await fetch("https://app.syrinscape.com/config/", requestOptions);
 
-    if (!response.ok) throw new Error("Response Not OK!", { cause: response });
+    if (!response.ok) throw new Error("SyrinScape Controller | Response Not OK!", { cause: response });
 
     const json = await response.json();
 
     this.sessionToken = json["token"];
     this.sessionId = json["session_id"];
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * Builds out default request options for use with `fetch`
@@ -55,6 +61,8 @@ export default class AuthManager {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Returns the json from a given URL
    * @param {string} url
@@ -62,10 +70,10 @@ export default class AuthManager {
    */
   async fetchJson(url) {
     const requestOptions = this.requestOptions;
-    if (!requestOptions) throw new Error("You need to successfully initialize the auth manager first");
+    if (!requestOptions) throw new Error("SyrinScape Controller | You need to successfully initialize the auth manager first");
     const response = await fetch(url, requestOptions);
 
-    if (!response.ok) throw new Error("Response Not OK!", { cause: response });
+    if (!response.ok) throw new Error("SyrinScape Controller | Response Not OK!", { cause: response });
 
     return response.json();
   }
