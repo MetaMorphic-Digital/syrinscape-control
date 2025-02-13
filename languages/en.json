@@ -1,3 +1,10 @@
 {
-  "SYRINSCAPE": {}
+  "SYRINSCAPE": {
+    "SETTINGS": {
+      "AUTH": {
+        "name": "Auth Token",
+        "hint": "Paste your token in from syrinscape.com/account/auth-token."
+      }
+    }
+  }
 }
