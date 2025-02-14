@@ -1,9 +1,8 @@
 import { moduleId } from "./constants.mjs";
 
 export default class AuthManager {
-
   /**
-   * The session token to be used
+   * The session token to be used.
    * @type {string}
    */
   sessionToken;
@@ -11,13 +10,17 @@ export default class AuthManager {
   /* -------------------------------------------------- */
 
   /**
-   * The session ID
+   * The session ID.
    * @type {string}
    */
   sessionId;
 
   /* -------------------------------------------------- */
 
+  /**
+   * Initialize session token and id.
+   * @returns {Promise<void>}
+   */
   async initialize() {
     const token = game.settings.get(moduleId, "authToken");
 
@@ -46,18 +49,20 @@ export default class AuthManager {
   /* -------------------------------------------------- */
 
   /**
-   * Builds out default request options for use with `fetch`
+   * Builds out default request options for use with `fetch`.
+   * @type {object}
    */
   get requestOptions() {
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
     if (!this.sessionToken) return null;
-    else myHeaders.append("Authorization", this.sessionToken);
+    else myHeaders.append("Authorization", game.settings.get(moduleId, "authToken"));
 
     return {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
+      mode: "no-cors",
     };
   }
 
@@ -70,7 +75,8 @@ export default class AuthManager {
    */
   async fetchJson(url) {
     const requestOptions = this.requestOptions;
-    if (!requestOptions) throw new Error("SyrinScape Controller | You need to successfully initialize the auth manager first");
+    if (!requestOptions) throw new Error("SyrinScape Controller | You need to successfully initialize the auth manager first.");
+    url = `${game.settings.get(moduleId, "address")}/${url}`;
     const response = await fetch(url, requestOptions);
 
     if (!response.ok) throw new Error("SyrinScape Controller | Response Not OK!", { cause: response });
