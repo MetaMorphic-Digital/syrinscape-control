@@ -50,7 +50,7 @@ export default class AuthManager {
 
     const json = await response.json();
 
-    console.warn("Received auth token", json);
+    console.debug("Received auth token", json);
 
     this.sessionToken = json["token"];
     this.sessionId = json["session_id"];
@@ -67,13 +67,12 @@ export default class AuthManager {
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
     if (!this.sessionToken) return null;
-    else myHeaders.append("Authorization", "token " + this.sessionToken);
+    else myHeaders.append("authorization", this.sessionToken);
 
     return {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
-      mode: "no-cors",
     };
   }
 
@@ -88,10 +87,9 @@ export default class AuthManager {
     const requestOptions = this.requestOptions;
     if (!requestOptions) throw new Error("SyrinScape Controller | You need to successfully initialize the auth manager first.");
     url = `${game.settings.get(moduleId, "address")}/${url}`;
-    console.log(url, requestOptions);
     const response = await fetch(url, requestOptions);
 
-    console.warn(response);
+    console.debug(response);
 
     if (!response.ok) throw new Error("SyrinScape Controller | Response Not OK!", { cause: response });
 
