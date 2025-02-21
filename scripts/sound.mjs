@@ -1,5 +1,5 @@
 /**
- * Manage available sounds
+ * A class responsible for managing available sounds.
  */
 export default class SoundManager {
   /**
