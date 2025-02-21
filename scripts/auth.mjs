@@ -27,7 +27,7 @@ export default class AuthManager {
 
   /**
    * Initialize session token and id.
-   * @returns {Promise<void>}
+   * @returns {Promise<void>}     A promise that resolves once the game session has been initialized.
    */
   async initialize() {
     const token = game.settings.get(moduleId, "authToken");
@@ -79,9 +79,9 @@ export default class AuthManager {
   /* -------------------------------------------------- */
 
   /**
-   * Returns the json from a given URL
-   * @param {string} url
-   * @returns {Promise<Array<unknown> | Record<string, unknown>>}
+   * Returns the json from a given URL.
+   * @param {string} url      The url from which to fetch.
+   * @returns {Promise<Array<unknown>|Record<string, unknown>>}
    */
   async fetchJson(url) {
     const requestOptions = this.requestOptions;

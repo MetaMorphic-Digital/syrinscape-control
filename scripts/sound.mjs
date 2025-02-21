@@ -4,15 +4,16 @@
 export default class SoundManager {
   /**
    * Fetch available soundsets.
-   * @returns {Array<object>}      An array of soundset data.
+   * @returns {Promise<object[]>}     A promise that resolves to an array of soundset data.
    */
   async listSoundSets() {
     return syrinscapeControl.auth.fetchJson("soundsets/");
   }
 
   /**
-   * List the moods for a soundset
-   * @param {string} uuid      Soundset uuid.
+   * List the moods for a soundset.
+   * @param {string} uuid     Soundset uuid.
+   * @returns {Promise<Array<unknown>|Record<string, unknown>>}
    */
   async moods(uuid) {
     return syrinscapeControl.auth.fetchJson("moods/?soundset_uuid=" + uuid);
@@ -20,8 +21,8 @@ export default class SoundManager {
 
   /**
    * List the elements for a soundset.
-   * @param {string} uuid      Soundset uuid.
-   * @returns
+   * @param {string} uuid     Soundset uuid.
+   * @returns {Promise<Array<unknown>|Record<string, unknown>>}
    */
   async elements(uuid) {
     return syrinscapeControl.auth.fetchJson("elements/?soundset__uuid=" + uuid);

@@ -25,6 +25,8 @@ Hooks.once("ready", () => {
   syrinscapeControl.auth.initialize();
 });
 
+/* -------------------------------------------------- */
+
 Hooks.on("getSceneControlButtons", (controls) => {
   controls.sounds.tools.syrinscapePlayer = {
     name: "syrinscapePlayer",
