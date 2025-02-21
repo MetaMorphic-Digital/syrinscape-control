@@ -3,7 +3,7 @@
  */
 export default class SoundManager {
   /**
-   * Fetch available soundsets
+   * Fetch available soundsets.
    * @returns {Array<object>}
    */
   async listSoundSets() {
@@ -12,15 +12,15 @@ export default class SoundManager {
 
   /**
    * List the moods for a soundset
-   * @param {string} uuid Soundset uuid
+   * @param {string} uuid      Soundset uuid.
    */
   async moods(uuid) {
     return syrinscapeControl.auth.fetchJson("moods/?soundset_uuid=" + uuid);
   }
 
   /**
-   * List the elements for a soundset
-   * @param {string} uuid Soundset uuid
+   * List the elements for a soundset.
+   * @param {string} uuid      Soundset uuid.
    * @returns
    */
   async elements(uuid) {

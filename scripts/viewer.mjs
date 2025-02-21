@@ -1,9 +1,12 @@
 export default class SyrinscapeViewer extends foundry.applications.sidebar.apps.FrameViewer {
+  /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     window: {
       title: "SYRINSCAPE.Viewer.Title",
     },
   };
+  
+  /* -------------------------------------------------- */
 
   static create(sessionId, sessionToken) {
     sessionId ||= syrinscapeControl.auth.sessionId;

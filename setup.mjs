@@ -4,7 +4,9 @@ import SyrinScapeSettingsHandler from "./scripts/settings.mjs";
 import SoundManager from "./scripts/sound.mjs";
 
 globalThis.syrinscapeControl = {
-  SyrinscapeViewer,
+  applications: {
+    SyrinscapeViewer,
+  },
   auth: new AuthManager(),
   sound: new SoundManager(),
   /** @type {SyrinscapeViewer} */
