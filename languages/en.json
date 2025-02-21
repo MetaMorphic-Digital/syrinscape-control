@@ -5,6 +5,12 @@
         "name": "Auth Token",
         "hint": "Paste your token in from syrinscape.com/account/auth-token."
       }
+    },
+    "Viewer": {
+      "Title": "Syrinscape App Viewer"
+    },
+    "SceneControls": {
+      "PlayerTitle": "Syrinscape Player"
     }
   }
 }

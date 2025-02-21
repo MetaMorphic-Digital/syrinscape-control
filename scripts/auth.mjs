@@ -18,8 +18,16 @@ export default class AuthManager {
   /* -------------------------------------------------- */
 
   /**
+   * Did the most recent initialize call successfully authenticate?
+   * @type {boolean}
+   */
+  authenticated = false;
+
+  /* -------------------------------------------------- */
+
+  /**
    * Initialize session token and id.
-   * @returns {Promise<void>}
+   * @returns {Promise<void>}     A promise that resolves once the game session has been initialized.
    */
   async initialize() {
     const token = game.settings.get(moduleId, "authToken");
@@ -28,7 +36,7 @@ export default class AuthManager {
 
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
-    myHeaders.append("Authorization", token);
+    myHeaders.append("Authorization", "token " + token);
 
     const requestOptions = {
       method: "GET",
@@ -42,8 +50,11 @@ export default class AuthManager {
 
     const json = await response.json();
 
+    console.debug("Received auth token", json);
+
     this.sessionToken = json["token"];
     this.sessionId = json["session_id"];
+    this.authenticated = json["authenticated"];
   }
 
   /* -------------------------------------------------- */
@@ -56,28 +67,29 @@ export default class AuthManager {
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
     if (!this.sessionToken) return null;
-    else myHeaders.append("Authorization", game.settings.get(moduleId, "authToken"));
+    else myHeaders.append("authorization", this.sessionToken);
 
     return {
       method: "GET",
       headers: myHeaders,
       redirect: "follow",
-      mode: "no-cors",
     };
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Returns the json from a given URL
-   * @param {string} url
-   * @returns {Promise<Array<unknown> | Record<string, unknown>>}
+   * Returns the json from a given URL.
+   * @param {string} url      The url from which to fetch.
+   * @returns {Promise<Array<unknown>|Record<string, unknown>>}
    */
   async fetchJson(url) {
     const requestOptions = this.requestOptions;
     if (!requestOptions) throw new Error("SyrinScape Controller | You need to successfully initialize the auth manager first.");
     url = `${game.settings.get(moduleId, "address")}/${url}`;
     const response = await fetch(url, requestOptions);
+
+    console.debug(response);
 
     if (!response.ok) throw new Error("SyrinScape Controller | Response Not OK!", { cause: response });
 
