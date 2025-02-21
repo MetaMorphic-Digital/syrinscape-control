@@ -1,13 +1,52 @@
+import { moduleId } from "./constants.mjs";
+
 /**
  * A class responsible for managing available sounds.
  */
 export default class SoundManager {
   /**
+   * Builds out default request options for use with `fetch`.
+   * @type {object}
+   */
+  get requestOptions() {
+    const myHeaders = new Headers();
+    myHeaders.append("Accept", "application/json");
+    if (!syrinscape.config.token) return null;
+    else myHeaders.append("authorization", syrinscape.config.token);
+
+    return {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+  }
+
+  /**
+   * Returns the json from a given URL.
+   * @param {string} url      The url from which to fetch.
+   * @returns {Promise<Array<unknown>|Record<string, unknown>>}
+   */
+  async fetchJson(url) {
+
+    const requestOptions = this.requestOptions;
+    if (!requestOptions) throw new Error("SyrinScape Controller | You need to successfully initialize syrinscape.config first.");
+    url = `${game.settings.get(moduleId, "address")}/${url}`;
+    const response = await fetch(url, requestOptions);
+
+    if (!response.ok) {
+      console.error(response, await response.json());
+      throw new Error("SyrinScape Controller | Response Not OK!", { cause: response });
+    }
+
+    return response.json();
+  }
+
+  /**
    * Fetch available soundsets.
    * @returns {Promise<object[]>}     A promise that resolves to an array of soundset data.
    */
   async listSoundSets() {
-    return syrinscapeControl.auth.fetchJson("soundsets/");
+    return this.fetchJson("soundsets/");
   }
 
   /**
@@ -16,7 +55,7 @@ export default class SoundManager {
    * @returns {Promise<Array<unknown>|Record<string, unknown>>}
    */
   async moods(uuid) {
-    return syrinscapeControl.auth.fetchJson("moods/?soundset_uuid=" + uuid);
+    return this.fetchJson("moods/?soundset_uuid=" + uuid);
   }
 
   /**
@@ -25,6 +64,6 @@ export default class SoundManager {
    * @returns {Promise<Array<unknown>|Record<string, unknown>>}
    */
   async elements(uuid) {
-    return syrinscapeControl.auth.fetchJson("elements/?soundset__uuid=" + uuid);
+    return this.fetchJson("elements/?soundset__uuid=" + uuid);
   }
 }
