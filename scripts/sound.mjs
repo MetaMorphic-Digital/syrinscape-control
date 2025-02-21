@@ -27,7 +27,6 @@ export default class SoundManager {
    * @returns {Promise<Array<unknown>|Record<string, unknown>>}
    */
   async fetchJson(url) {
-
     const requestOptions = this.requestOptions;
     if (!requestOptions) throw new Error("SyrinScape Controller | You need to successfully initialize syrinscape.config first.");
     url = `${game.settings.get(moduleId, "address")}/${url}`;

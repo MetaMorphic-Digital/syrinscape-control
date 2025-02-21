@@ -22,9 +22,9 @@ export default class SyrinscapeViewer extends foundry.applications.sidebar.apps.
    */
   static create(sessionId, sessionToken) {
     const parts = [
-      `https://app.syrinscape.com/${sessionId ? sessionId : syrinscapeControl.auth.sessionId}`,
+      `https://app.syrinscape.com/${sessionId ? sessionId : syrinscape.config.sessionId}`,
       game.user.isGM ? null : "player",
-      `?auth_token=${sessionToken ? sessionToken : syrinscapeControl.auth.sessionToken}`,
+      `?auth_token=${sessionToken ? sessionToken : syrinscape.config.token}`,
     ];
     return new this({ url: parts.filterJoin("/") });
   }

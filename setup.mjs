@@ -33,10 +33,10 @@ Hooks.once("ready", () => {
       else syrinscape.config.sessionId = game.settings.get(moduleId, "sessionId");
     },
     onActive() {
-      console.log(this);
+      console.debug("Activating Syrinscape Player");
     },
     onInactive() {
-      console.log(this);
+      console.debug("Deactivating Syrinscape Player");
     },
   });
 });
@@ -53,8 +53,9 @@ Hooks.on("getSceneControlButtons", (controls) => {
       icon: "fa-solid fa-tree-palm",
       button: true,
       onChange: (event, toggled) => {
-        syrinscapeControl.viewer ??= SyrinscapeViewer.create();
-        syrinscapeControl.viewer.render({ force: true });
+        syrinscape.integration.launchAsGameMaster();
+        // syrinscapeControl.viewer ??= SyrinscapeViewer.create();
+        // syrinscapeControl.viewer.render({ force: true });
       },
     };
   }
