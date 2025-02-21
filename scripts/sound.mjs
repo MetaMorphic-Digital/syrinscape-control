@@ -4,7 +4,7 @@
 export default class SoundManager {
   /**
    * Fetch available soundsets.
-   * @returns {Array<object>}
+   * @returns {Array<object>}      An array of soundset data.
    */
   async listSoundSets() {
     return syrinscapeControl.auth.fetchJson("soundsets/");

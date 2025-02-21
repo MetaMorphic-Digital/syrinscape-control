@@ -26,7 +26,6 @@ Hooks.once("ready", () => {
 });
 
 Hooks.on("getSceneControlButtons", (controls) => {
-  console.log(controls);
   controls.sounds.tools.syrinscapePlayer = {
     name: "syrinscapePlayer",
     order: 4,
