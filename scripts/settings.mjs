@@ -15,7 +15,14 @@ export default class SyrinScapeSettingsHandler {
         type: new StringField({ blank: false }),
         scope: "client",
         config: true,
-        onChange: () => syrinscapeControl.auth.initialize(),
+        onChange: (value) => syrinscape.config.token = value,
+      },
+
+      sessionId: {
+        name: "SYRINSCAPE.SETTINGS.SessionId.name",
+        type: new StringField({ blank: false }),
+        scope: "world",
+        onChange: (value) => syrinscape.config.sessionid = value,
       },
 
       address: {

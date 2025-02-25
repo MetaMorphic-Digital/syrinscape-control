@@ -13,7 +13,10 @@
     "verified": "13"
   },
   "esmodules": [
-    "./setup.mjs"
+    "./setup.mjs",
+    "./lib/homePlayer.js",
+    "./lib/integration.js",
+    "./lib/player.js"
   ],
   "styles": [
     "styles/styles.css"
