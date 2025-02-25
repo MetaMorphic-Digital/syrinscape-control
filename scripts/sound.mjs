@@ -21,6 +21,8 @@ export default class SoundManager {
     };
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Returns the json from a given URL.
    * @param {string} url      The url from which to fetch.
@@ -40,6 +42,8 @@ export default class SoundManager {
     return response.json();
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Fetch available soundsets.
    * @returns {Promise<object[]>}     A promise that resolves to an array of soundset data.
@@ -47,6 +51,8 @@ export default class SoundManager {
   async listSoundSets() {
     return this.fetchJson("soundsets/");
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * List the moods for a soundset.
@@ -56,6 +62,8 @@ export default class SoundManager {
   async moods(uuid) {
     return this.fetchJson("moods/?soundset_uuid=" + uuid);
   }
+
+  /* -------------------------------------------------- */
 
   /**
    * List the elements for a soundset.
