@@ -6,11 +6,20 @@
         "hint": "Paste your token in from syrinscape.com/account/auth-token."
       }
     },
+    "SoundType": {
+      "Element": "Element",
+      "Mood": "Mood"
+    },
     "Viewer": {
       "Title": "Syrinscape App Viewer"
     },
     "SceneControls": {
       "PlayerTitle": "Syrinscape Player"
+    },
+    "SoundConfig": {
+      "SoundTypeLabel": "Syrinscape Sound Type",
+      "SoundIdLabel": "Syrinscape Sound ID",
+      "SoundIdHint": "If present, used as an alternative to the source file"
     }
   }
 }
