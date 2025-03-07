@@ -12,7 +12,7 @@ export default class SoundManager {
     const myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
     if (!syrinscape.config.token) return null;
-    else myHeaders.append("authorization", syrinscape.config.token);
+    else myHeaders.append("authorization", "token " + syrinscape.config.token);
 
     return {
       method: "GET",
