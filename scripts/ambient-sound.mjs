@@ -1,3 +1,5 @@
+import SyrinscapeSound from "./sound-extension.mjs";
+
 export default function registerSyrinscapeAmbientSound() {
   class SyrinscapeAmbientSound extends CONFIG.AmbientSound.objectClass {
     get syrinscapeURL() {
@@ -13,6 +15,8 @@ export default function registerSyrinscapeAmbientSound() {
 
       if (url) {
         console.log(url);
+        const sound = new SyrinscapeSound(url);
+        return sound;
       }
 
       return super._createSound();

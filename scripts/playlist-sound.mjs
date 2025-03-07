@@ -1,3 +1,4 @@
+import SyrinscapeSound from "./sound-extension.mjs";
 import { moduleId } from "./constants.mjs";
 
 export default function registerSyrinscapePlaylistSound() {
@@ -19,6 +20,11 @@ export default function registerSyrinscapePlaylistSound() {
 
       if (url) {
         console.log(url);
+        const sound = new SyrinscapeSound(url);
+        sound.addEventListener("play", this._onStart.bind(this));
+        sound.addEventListener("end", this._onEnd.bind(this));
+        sound.addEventListener("stop", this._onStop.bind(this));
+        return sound;
       }
 
       return super._createSound();

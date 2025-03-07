@@ -1,6 +1,6 @@
 import SyrinscapeViewer from "./scripts/viewer.mjs";
 import SyrinScapeSettingsHandler from "./scripts/settings.mjs";
-import SoundManager from "./scripts/sound.mjs";
+import SoundManager from "./scripts/sound-manager.mjs";
 import registerSyrinscapeAmbientSound from "./scripts/ambient-sound.mjs";
 import registerSyrinscapePlaylistSound from "./scripts/playlist-sound.mjs";
 import { moduleId } from "./scripts/constants.mjs";
@@ -19,6 +19,8 @@ globalThis.syrinscapeControl = {
 
 Hooks.once("init", () => {
   SyrinScapeSettingsHandler.registerSettings();
+
+  registerSyrinscapeAmbientSound();
 
   registerSyrinscapePlaylistSound();
 });

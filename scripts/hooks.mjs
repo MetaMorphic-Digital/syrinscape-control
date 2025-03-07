@@ -38,7 +38,12 @@ export function renderPlaylistSoundConfig(app, html, context, options) {
     localize: true,
   });
 
-  html.querySelector(".form-group:nth-child(2)").after(soundTypeGroup, soundIdGroup);
+  const syrinscape = document.createElement("fieldset");
+  // Not localizing company name
+  syrinscape.insertAdjacentHTML("afterbegin", "<legend>Syrinscape<legend>");
+  syrinscape.append(soundTypeGroup, soundIdGroup);
+
+  html.querySelector(".form-group:nth-child(2)").after(syrinscape);
 }
 
 /**
@@ -79,5 +84,10 @@ export function renderAmbientSoundConfig(app, html, context, options) {
     localize: true,
   });
 
-  html.querySelector("fieldset").append(soundTypeGroup, soundIdGroup);
+  const syrinscape = document.createElement("fieldset");
+  // Not localizing company name
+  syrinscape.insertAdjacentHTML("afterbegin", "<legend>Syrinscape<legend>");
+  syrinscape.append(soundTypeGroup, soundIdGroup);
+
+  html.querySelector("fieldset").after(syrinscape);
 }
