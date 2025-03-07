@@ -14,7 +14,6 @@ export default function registerSyrinscapeAmbientSound() {
       const url = this.syrinscapeURL;
 
       if (url) {
-        console.log(url);
         const sound = new SyrinscapeSound(url);
         return sound;
       }

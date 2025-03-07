@@ -19,7 +19,6 @@ export default function registerSyrinscapePlaylistSound() {
       const url = this.syrinscapeURL;
 
       if (url) {
-        console.log(url);
         const sound = new SyrinscapeSound(url);
         sound.addEventListener("play", this._onStart.bind(this));
         sound.addEventListener("end", this._onEnd.bind(this));
