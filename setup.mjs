@@ -5,6 +5,7 @@ import registerSyrinscapeAmbientSound from "./scripts/ambient-sound.mjs";
 import registerSyrinscapePlaylistSound from "./scripts/playlist-sound.mjs";
 import { moduleId } from "./scripts/constants.mjs";
 import * as hooks from "./scripts/hooks.mjs";
+import * as utils from "./scripts/api.mjs";
 
 globalThis.syrinscapeControl = {
   applications: {
@@ -13,6 +14,7 @@ globalThis.syrinscapeControl = {
   sound: new SoundManager(),
   /** @type {SyrinscapeViewer} */
   viewer: null,
+  utils: utils,
 };
 
 /* -------------------------------------------------- */
