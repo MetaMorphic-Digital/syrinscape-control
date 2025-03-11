@@ -1,0 +1,27 @@
+#syrinscape-browser {
+  &:not(.minimizing, .maximizing, .minimized) {
+    min-height: 200px;
+    min-width: 400px;
+  }
+
+  [data-application-part=results] {
+    .entry {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      [draggable] {
+        flex: 0 0 2em;
+      }
+
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+      }
+      .controls > * {
+        flex: 1;
+      }
+    }
+  }
+}

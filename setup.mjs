@@ -1,3 +1,5 @@
+import SyrinscapeBrowser from "./scripts/browser.mjs";
+import SyrinscapeFilterModel from "./scripts/browser-filter-model.mjs";
 import SyrinscapeViewer from "./scripts/viewer.mjs";
 import SyrinScapeSettingsHandler from "./scripts/settings.mjs";
 import SoundManager from "./scripts/sound-manager.mjs";
@@ -9,7 +11,11 @@ import * as utils from "./scripts/api.mjs";
 
 globalThis.syrinscapeControl = {
   applications: {
+    SyrinscapeBrowser,
     SyrinscapeViewer,
+  },
+  data: {
+    SyrinscapeFilterModel,
   },
   sound: new SoundManager(),
   /** @type {SyrinscapeViewer} */
@@ -85,3 +91,4 @@ Hooks.on("globalAmbientVolumeChanged", (volume) => {
 
 Hooks.on("renderPlaylistSoundConfig", hooks.renderPlaylistSoundConfig);
 Hooks.on("renderAmbientSoundConfig", hooks.renderAmbientSoundConfig);
+Hooks.on("renderPlaylistDirectory", hooks.renderPlaylistDirectory);

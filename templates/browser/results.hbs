@@ -1,0 +1,19 @@
+<section>
+  {{#if (gt results.size 1000)}}
+  <p>Too many results. Please filter on the left.</p>
+  {{else}}
+  <ul>
+    {{#each results}}
+    <li class="entry" data-id="{{id}}">
+      <a draggable=""> <i class="icon fa-solid fa-grip-lines"></i> </a>
+      <span class="name" data-name="{{name}}">{{name}}</span>
+      <span class="soundset">({{soundset}})</span>
+      <div class="controls">
+        <a data-action="burger"> <i class="fa-solid fa-ellipsis-vertical"></i> </a>
+        <button type="button" data-action="play" class="icon fa-solid fa-volume-high"></button>
+      </div>
+    </li>
+    {{/each}}
+  </ul>
+  {{/if}}
+</section>

@@ -1,5 +1,14 @@
 {
   "SYRINSCAPE": {
+    "BROWSER": {
+      "TABS": {
+        "moods": "Moods",
+        "oneshots": "One-Shots"
+      },
+      "WINDOW": {
+        "title": "Syrinscape Browser"
+      }
+    },
     "SETTINGS": {
       "AUTH": {
         "name": "Auth Token",

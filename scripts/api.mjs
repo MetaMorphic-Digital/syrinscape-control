@@ -164,3 +164,174 @@ export async function retrieveElements(uuid) {
 //     console.error(err);
 //   }
 // }
+
+/* -------------------------------------------------- */
+
+/**
+ * Retrieve a csv file from the module's local storage folder.
+ * @param {object} [options]                    Options for the return value and retrieval.
+ * @param {string} [options.name]               The name of the file.
+ * @param {boolean} [options.parse]             Attempt to parse the file's contents?
+ * @returns {Promise<string|SyrinCollection>}   The contents of the file, or an empty string if there was an error.
+ */
+export async function retrieveLocalCSV({ name = "test-csv", parse = false } = {}) {
+  try {
+    const response = await foundry.utils.fetchWithTimeout(`/modules/syrinscape-control/storage/${name}.csv`);
+    const text = await response.text();
+    return parse ? _parseLocalCSV(text) : text;
+  } catch (err) {
+    return "";
+  }
+}
+
+function _parseLocalCSV(text) {
+  const contents = parseCSV(text);
+
+  const headers = contents.shift();
+  const base = Object.fromEntries(headers.map(h => [h, null]));
+  const data = new SyrinCollection();
+  for (const c of contents) {
+    const object = { ...base };
+    for (const [i, s] of c.entries()) {
+      object[headers[i]] = s;
+    }
+    data.set(object.id, object);
+  }
+
+  return data;
+}
+
+class SyrinCollection extends foundry.utils.Collection {
+  /** @inheritdoc */
+  set(k, v) {
+    switch (v.type) {
+      case "mood":
+        this.#moods.push(v);
+        break;
+      case "element":
+        this.#elements.push(v);
+        break;
+    }
+
+    return super.set(k, v);
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Retrieve all data of a certain property.
+   * @param {Record<string, string|string[]>} configuration   An object whose properties the data must match.
+   * @returns {SyrinCollection}                               A new, reduced collection.
+   */
+  getByProperty(configuration) {
+    const data = new SyrinCollection();
+    const source = this.getByType(configuration.type) ?? this;
+
+    cycle: for (const d of source) {
+      for (let [property, v] of Object.entries(configuration)) {
+        switch (property) {
+          case "product":
+          case "pack":
+          case "product_or_pack":
+          case "productOrPack":
+            property = "product_or_pack";
+            break;
+          case "set":
+          case "soundset":
+            property = "soundset";
+            break;
+          case "status":
+            break;
+          case "subType":
+          case "subtype":
+          case "sub_type":
+            property = "sub_type";
+            break;
+          case "subcategory":
+          case "subCategory":
+            property = "subcategory";
+            break;
+          case "type":
+            break;
+        }
+
+        switch (foundry.utils.getType(v)) {
+          case "string":
+            if (d[property] !== v) continue cycle;
+            break;
+          case "Array":
+            if (!v.length) continue; // Empty arrays are ignored.
+            if (!v.includes(d[property])) continue cycle;
+            break;
+        }
+      }
+      data.set(d.id, d);
+    }
+    return data;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Entries are split by type for performance.
+   * @param {string} type   The type.
+   * @returns {object[]|null}
+   */
+  getByType(type) {
+    switch (type) {
+      case "mood":
+        return this.#moods;
+      case "element":
+        return this.#elements;
+      default:
+        return null;
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  #moods = [];
+
+  #elements = [];
+}
+
+/**
+ * https://stackoverflow.com/questions/1293147/
+ * @param {string} str    String to parse.
+ * @returns {string[][]}
+ */
+function parseCSV(str) {
+  const arr = [];
+  let quote = false; // 'true' means we're inside a quoted field
+
+  // Iterate over each character, keep track of current row and column (of the returned array)
+  for (let row = 0, col = 0, c = 0; c < str.length; c++) {
+    let cc = str[c], nc = str[c + 1]; // Current character, next character
+    arr[row] = arr[row] || []; // Create a new row if necessary
+    arr[row][col] = arr[row][col] || ""; // Create a new column (start with empty string) if necessary
+
+    // If the current character is a quotation mark, and we're inside a
+    // quoted field, and the next character is also a quotation mark,
+    // add a quotation mark to the current column and skip the next character
+    if ((cc == "\"") && quote && (nc == "\"")) { arr[row][col] += cc; ++c; continue; }
+
+    // If it's just one quotation mark, begin/end quoted field
+    if (cc == "\"") { quote = !quote; continue; }
+
+    // If it's a comma and we're not in a quoted field, move on to the next column
+    if ((cc == ",") && !quote) { ++col; continue; }
+
+    // If it's a newline (CRLF) and we're not in a quoted field, skip the next character
+    // and move on to the next row and move to column 0 of that new row
+    if ((cc == "\r") && (nc == "\n") && !quote) { ++row; col = 0; ++c; continue; }
+
+    // If it's a newline (LF or CR) and we're not in a quoted field,
+    // move on to the next row and move to column 0 of that new row
+    if ((cc == "\n") && !quote) { ++row; col = 0; continue; }
+    if ((cc == "\r") && !quote) { ++row; col = 0; continue; }
+
+    // Otherwise, append the current character to the current column
+    arr[row][col] += cc;
+  }
+  return arr;
+}

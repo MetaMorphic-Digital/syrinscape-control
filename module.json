@@ -40,5 +40,6 @@
   },
   "url": "https://github.com/MetaMorphic-Digital/syrinscape-control",
   "manifest": "https://github.com/MetaMorphic-Digital/syrinscape-control/releases/latest/download/module.json",
-  "download": "AUTOMATIC"
+  "download": "AUTOMATIC",
+  "persistentStorage": true
 }
