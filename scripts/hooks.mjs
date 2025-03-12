@@ -105,6 +105,7 @@ export function renderPlaylistDirectory(directory, element) {
   if (!game.user.isGM) return;
   element.querySelector(".header-actions").insertAdjacentHTML("beforeend", `
     <button type="button" data-action="syrinscapeBrowser">
+      <i class="fa-solid fa-file-audio" inert></i>
       <span>Open Syrinscape Browser</span>
     </button>`,
   );
