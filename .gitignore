@@ -2,3 +2,4 @@
 node_modules/
 foundry
 foundry-config.yaml
+storage/test-csv.csv

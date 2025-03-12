@@ -46,6 +46,8 @@ export function renderPlaylistSoundConfig(app, html, context, options) {
   html.querySelector(".form-group:nth-child(2)").after(syrinscape);
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Add Syrinscape-specific inputs to the AmbientSoundConfig app
  * @param {InstanceType<foundry["applications"]["sheets"]["AmbientSoundConfig"]>} app
@@ -90,4 +92,31 @@ export function renderAmbientSoundConfig(app, html, context, options) {
   syrinscape.append(soundTypeGroup, soundIdGroup);
 
   html.querySelector("fieldset").after(syrinscape);
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Add a button for GMs to open the Syrinscape browser.
+ * @param {InstanceType<foundry["applications"]["sidebar"]["tabs"]["PlaylistDirectory"]>} directory
+ * @param {HTMLElement} element         The application element.
+ */
+export function renderPlaylistDirectory(directory, element) {
+  if (!game.user.isGM) return;
+  element.querySelector(".header-actions").insertAdjacentHTML("beforeend", `
+    <button type="button" data-action="syrinscapeBrowser">
+      <i class="fa-solid fa-file-audio" inert></i>
+      <span>Open Syrinscape Browser</span>
+    </button>`,
+  );
+  const button = element.querySelector("[data-action=syrinscapeBrowser]");
+  button.addEventListener("click", async () => {
+    await syrinscapeControl.utils.retrieveLocalCSV({ parse: true });
+    if (!syrinscapeControl.storage._collection) {
+      ui.notifications.error("SYRINSCAPE.BROWSER.WARNING.cached", { localize: true });
+      return;
+    }
+    ui.syrinscapeBrowser.render({ force: true });
+  });
+  button.style.flex = "0 0 100%";
 }
