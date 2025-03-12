@@ -2,6 +2,7 @@ import SyrinscapeBrowser from "./scripts/browser.mjs";
 import SyrinscapeFilterModel from "./scripts/browser-filter-model.mjs";
 import SyrinscapeViewer from "./scripts/viewer.mjs";
 import SyrinScapeSettingsHandler from "./scripts/settings.mjs";
+import SyrinscapeStorage from "./scripts/storage.mjs";
 import SoundManager from "./scripts/sound-manager.mjs";
 import registerSyrinscapeAmbientSound from "./scripts/ambient-sound.mjs";
 import registerSyrinscapePlaylistSound from "./scripts/playlist-sound.mjs";
@@ -16,10 +17,13 @@ globalThis.syrinscapeControl = {
   },
   data: {
     SyrinscapeFilterModel,
+    SyrinscapeStorage,
   },
   sound: new SoundManager(),
   /** @type {SyrinscapeViewer} */
   viewer: null,
+  /** @type {SyrinscapeStorage} */
+  storage: null,
   utils: utils,
 };
 

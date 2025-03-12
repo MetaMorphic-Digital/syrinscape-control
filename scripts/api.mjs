@@ -64,12 +64,26 @@ export async function setVolume(value, { type = "local" } = {}) {
 
 /**
  * Play an element by its id (a 7-digit number).
- * @param {number} id               The id of the element to play.
+ * @param {number|string} id        The id of the element to play.
  * @returns {Promise<boolean>}      Whether the request was successful.
  */
 export async function playElement(id) {
+  id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
   try {
     await syrinscape.player.controlSystem.startElements([id]);
+    return true;
+  } catch (err) {
+    console.warn(err);
+    return false;
+  }
+}
+
+/* -------------------------------------------------- */
+
+export async function stopElement(id) {
+  id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
+  try {
+    await syrinscape.player.controlSystem.stopElements([id]);
     return true;
   } catch (err) {
     console.warn(err);
@@ -85,8 +99,22 @@ export async function playElement(id) {
  * @returns {Promise<boolean>}    Whether the request was successful.
  */
 export async function playMood(id) {
+  id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
   try {
     await syrinscape.player.controlSystem.startMood(id);
+    return true;
+  } catch (err) {
+    console.warn(err);
+    return false;
+  }
+}
+
+/* -------------------------------------------------- */
+
+export async function stopMood(id) {
+  id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
+  try {
+    await syrinscape.player.controlSystem.stopMood(id);
     return true;
   } catch (err) {
     console.warn(err);

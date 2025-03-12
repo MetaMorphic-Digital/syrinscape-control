@@ -2,8 +2,8 @@
   /* grid layout */
   .window-content {
     display: grid;
-    grid: "header header" auto
-          "nav nav" auto
+    grid: "header header" 0fr
+          "nav nav" 0fr
           "filters results" auto
           / 400px auto;
 
@@ -50,6 +50,7 @@
 
       .draggable {
         flex: 0 0 2em;
+        cursor: grab;
       }
 
       .title {

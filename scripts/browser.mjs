@@ -280,10 +280,10 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {HTMLElement} target    The element that defined the [data-action].
    */
   static #onClickPlay(event, target) {
-    // Get the uuid and play this mood or oneshot.
     const id = target.closest(".entry").dataset.id;
-    const sound = this.#cachedCollection.get(id);
-    // TODO
+    // TODO: the play button should change if the mood/element is currently playing
+    // TODO: use utils.playElement depending
+    syrinscapeControl.utils.playMood(id);
   }
 
   /* -------------------------------------------------- */
@@ -294,6 +294,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * Initialize the context menu handler.
    */
   #initializeContextMenu() {
+    // TODO: ContextMenu.create is deprecated: https://github.com/foundryvtt/foundryvtt/issues/12335
     foundry.applications.ui.ContextMenu.create(this, this.element, ".entry", {
       hookName: "SyrinscapeContext",
       jQuery: false,
@@ -308,6 +309,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @returns {object[]}    Context menu options.
    */
   _getSyrinscapeContextOptions() {
+    // TODO: play, stop, create macro, create playlist(?), create ambient sound
     return [{
       name: "HELLO1",
     }, {
@@ -339,6 +341,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   static #dragStart(event) {
     console.warn(event.target, event.currentTarget);
-    event.dataTransfer.setData("text/plain", event.target.dataset.uuid); // TODO
+    // TODO: this should be used for dropping a sound onto the canvas (ambient sound) or onto the hotbar (toggle macro)
+    // event.dataTransfer.setData("text/plain", event.target.dataset.uuid);
   }
 }
