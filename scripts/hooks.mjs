@@ -110,6 +110,13 @@ export function renderPlaylistDirectory(directory, element) {
     </button>`,
   );
   const button = element.querySelector("[data-action=syrinscapeBrowser]");
-  button.addEventListener("click", () => ui.syrinscapeBrowser.render({ force: true }));
+  button.addEventListener("click", async () => {
+    await syrinscapeControl.utils.retrieveLocalCSV({ parse: true });
+    if (!syrinscapeControl.storage._collection) {
+      ui.notifications.error("SYRINSCAPE.BROWSER.WARNING.cached", { localize: true });
+      return;
+    }
+    ui.syrinscapeBrowser.render({ force: true });
+  });
   button.style.flex = "0 0 100%";
 }

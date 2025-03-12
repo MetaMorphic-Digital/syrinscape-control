@@ -99,9 +99,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     if (!this.#cachedCollection) {
-      const notif = ui.notifications.info("Retrieving Syrinscape Data...", { pct: 0, progress: true });
-      this.#cachedCollection = await syrinscapeControl.utils.retrieveLocalCSV({ parse: true });
-      notif.update({ pct: 1 });
+      this.#cachedCollection = syrinscapeControl.storage._collection;
+      if (!this.#cachedCollection) throw new Error("Invalid cached collection.");
     }
     Object.assign(context, { collection: this.#cachedCollection });
     return context;

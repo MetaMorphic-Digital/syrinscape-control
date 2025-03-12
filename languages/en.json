@@ -6,6 +6,9 @@
         "moods": "Moods",
         "oneshots": "One-Shots"
       },
+      "WARNING": {
+        "cached": "No cached data was able to be provided for the Syrinscape Browser. Please ensure you have a local CSV or are able to fetch it."
+      },
       "WINDOW": {
         "title": "Syrinscape Browser"
       }

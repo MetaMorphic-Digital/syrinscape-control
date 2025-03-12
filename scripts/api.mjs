@@ -203,11 +203,19 @@ export async function retrieveElements(uuid) {
  * @returns {Promise<string|SyrinCollection>}   The contents of the file, or an empty string if there was an error.
  */
 export async function retrieveLocalCSV({ name = "test-csv", parse = false } = {}) {
+  if (parse && syrinscapeControl.storage._collection) return syrinscapeControl.storage._collection;
+
+  let notif;
   try {
+    notif = ui.notifications.info("Retrieving Syrinscape Data...", { pct: 0, progress: true });
     const response = await foundry.utils.fetchWithTimeout(`/modules/syrinscape-control/storage/${name}.csv`);
     const text = await response.text();
-    return parse ? _parseLocalCSV(text) : text;
+    notif?.update({ pct: 1 });
+    const result = parse ? _parseLocalCSV(text) : text;
+    if (parse) syrinscapeControl.storage._collection = result;
+    return result;
   } catch (err) {
+    notif?.update({ pct: 1 });
     return "";
   }
 }
