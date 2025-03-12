@@ -113,14 +113,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     context = await super._preparePartContext(partId, context, options);
 
     switch (partId) {
-      case "header":
-        await this.#preparePartHeader(context, options);
-        break;
       case "filters":
         await this.#preparePartFilters(context, options);
-        break;
-      case "navigation":
-        await this.#preparePartNavigation(context, options);
         break;
       case "results":
         await this.#preparePartResults(context, options);
@@ -129,15 +123,6 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
 
     return context;
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare context for template part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   */
-  async #preparePartHeader(context, options) {}
 
   /* -------------------------------------------------- */
 
@@ -161,15 +146,6 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
 
     Object.assign(context, { filters });
   }
-
-  /* -------------------------------------------------- */
-
-  /**
-   * Prepare context for template part.
-   * @param {object} context    Rendering context. **will be mutated**
-   * @param {object} options    Rendering options.
-   */
-  async #preparePartNavigation(context, options) {}
 
   /* -------------------------------------------------- */
 
