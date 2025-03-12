@@ -68,14 +68,6 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * The singleton instance of this application.
-   * @type {SyrinscapeBrowser|null}
-   */
-  static #instance = null;
-
-  /* -------------------------------------------------- */
-
-  /**
    * The cached data from a setting or csv.
    * @type {SyrinCollection|null}
    */
@@ -94,34 +86,11 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
 
   /* -------------------------------------------------- */
 
-  /**
-   * Factory method to prevent instantiating multiple instances of this browser.
-   * @param {object} [options]    Rendering options.
-   * @returns {Promise<SyrinscapeBrowser>}
-   */
-  static create(options) {
-    if (!SyrinscapeBrowser.#instance) {
-      const application = new this(options);
-      SyrinscapeBrowser.#instance = application;
-    }
-    return SyrinscapeBrowser.#instance.render({ force: true });
-  }
-
-  /* -------------------------------------------------- */
-
   /** @inheritdoc */
   _onRender(context, options) {
     super._onRender(context, options);
     this.#initializeContextMenu();
     this.#initializeDragDrop();
-  }
-
-  /* -------------------------------------------------- */
-
-  /** @inheritdoc */
-  _onClose(options) {
-    super._onClose(options);
-    SyrinscapeBrowser.#instance = null;
   }
 
   /* -------------------------------------------------- */

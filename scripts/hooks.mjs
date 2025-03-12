@@ -109,6 +109,6 @@ export function renderPlaylistDirectory(directory, element) {
     </button>`,
   );
   const button = element.querySelector("[data-action=syrinscapeBrowser]");
-  button.addEventListener("click", () => syrinscapeControl.applications.SyrinscapeBrowser.create());
+  button.addEventListener("click", () => ui.syrinscapeBrowser.render({ force: true }));
   button.style.flex = "0 0 100%";
 }

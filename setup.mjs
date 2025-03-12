@@ -27,6 +27,8 @@ globalThis.syrinscapeControl = {
   utils: utils,
 };
 
+CONFIG.ui.syrinscapeBrowser = SyrinscapeBrowser;
+
 /* -------------------------------------------------- */
 
 Hooks.once("init", () => {
