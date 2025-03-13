@@ -173,7 +173,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
 
   /* -------------------------------------------------- */
 
-  /** @override */
+  /** @inheritdoc */
   changeTab(tab, group, { event, navElement, force = false, updatePosition = true } = {}) {
     super.changeTab(tab, group, { event, navElement, force, updatePosition });
     this.#filterModel.resetFilter(),

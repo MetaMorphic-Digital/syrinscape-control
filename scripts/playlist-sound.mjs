@@ -10,7 +10,7 @@ export default function registerSyrinscapePlaylistSound() {
       else return null;
     }
 
-    /** @override */
+    /** @inheritdoc */
     _createSound() {
       if (game.audio.locked) {
         throw new Error("You may not call PlaylistSound#_createSound until after game audio is unlocked.");
