@@ -99,7 +99,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   async _prepareContext(options) {
     const context = await super._prepareContext(options);
     if (!this.#cachedCollection) {
-      this.#cachedCollection = syrinscapeControl.storage._collection;
+      this.#cachedCollection = syrinscapeControl.storage.soundData;
       if (!this.#cachedCollection) throw new Error("Invalid cached collection.");
     }
     Object.assign(context, { collection: this.#cachedCollection });
