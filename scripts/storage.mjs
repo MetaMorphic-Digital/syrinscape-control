@@ -12,10 +12,18 @@ export default class SyrinscapeStorage {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Cached collection.
+   * @type {syrinscapeControl}
+   */
   #collection;
 
   /* -------------------------------------------------- */
 
+  /**
+   * Perform initialization of sound data.
+   * @returns {Promise<boolean|void>}   Whether initialization was successful.
+   */
   async initializeSoundData() {
     if (!game?.ready) {
       Hooks.once("ready", () => this.initializeSoundData());

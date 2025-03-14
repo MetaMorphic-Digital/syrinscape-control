@@ -234,6 +234,8 @@ function _parseLocalCSV(text) {
   return data;
 }
 
+/* -------------------------------------------------- */
+
 export class SyrinCollection extends foundry.utils.Collection {
   /** @inheritdoc */
   set(k, v) {
