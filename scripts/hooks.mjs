@@ -111,8 +111,7 @@ export function renderPlaylistDirectory(directory, element) {
   );
   const button = element.querySelector("[data-action=syrinscapeBrowser]");
   button.addEventListener("click", async () => {
-    await syrinscapeControl.utils.retrieveLocalCSV({ parse: true });
-    if (!syrinscapeControl.storage._collection) {
+    if (!syrinscapeControl.storage.soundData) {
       ui.notifications.error("SYRINSCAPE.BROWSER.WARNING.cached", { localize: true });
       return;
     }
