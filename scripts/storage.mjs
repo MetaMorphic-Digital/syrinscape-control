@@ -6,6 +6,13 @@ export default class SyrinscapeStorage {
    * @type {boolean}
    */
   #initialized = false;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Has sound data been initialized?
+   * @type {boolean}
+   */
   get initialized() {
     return this.#initialized;
   }
