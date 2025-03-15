@@ -2,6 +2,12 @@
   "SYRINSCAPE": {
     "NAME": "Syrinscape",
     "BROWSER": {
+      "HINTS": {
+        "results": {
+          "many": "Too many results. Please narrow down the filters on the left.",
+          "none": "No results found."
+        }
+      },
       "TABS": {
         "moods": "Moods",
         "oneshots": "One-Shots"
@@ -11,6 +17,25 @@
       },
       "WINDOW": {
         "title": "Syrinscape Browser"
+      }
+    },
+    "FILTERS": {
+      "FIELDS": {
+        "product": {
+          "label": "Product or Pack"
+        },
+        "soundset": {
+          "label": "Soundset"
+        },
+        "status": {
+          "label": "Status"
+        },
+        "subcategory": {
+          "label": "Subcategory"
+        },
+        "subtype": {
+          "label": "Subtype"
+        }
       }
     },
     "SETTINGS": {

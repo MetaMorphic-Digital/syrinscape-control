@@ -119,3 +119,12 @@ export function renderPlaylistDirectory(directory, element) {
   });
   button.style.flex = "0 0 100%";
 }
+
+/* -------------------------------------------------- */
+
+/**
+ * Localize the browser filter data model.
+ */
+export function localizeDataModels() {
+  Localization.localizeDataModel(syrinscapeControl.data.SyrinscapeFilterModel);
+}

@@ -29,6 +29,11 @@ export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = ["SYRINSCAPE.FILTERS"];
+
+  /* -------------------------------------------------- */
+
   /**
    * Turn this model into a filtering configuration.
    * @returns {object}    Filtering configuration.
