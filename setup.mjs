@@ -41,6 +41,12 @@ Hooks.once("init", () => {
 
 /* -------------------------------------------------- */
 
+Hooks.once("i18nInit", () => {
+  hooks.localizeDataModels();
+});
+
+/* -------------------------------------------------- */
+
 Hooks.once("ready", () => {
   game.audio.unlock.then(() => {
     syrinscape.player.init({

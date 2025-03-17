@@ -142,8 +142,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
         .map(v => ({ value: v, label: v }))
         .sort((a, b) => a.label.localeCompare(b.label));
       const field = this.#filterModel.schema.getField(k);
-      const label = k;
-      filters.push({ value, options, field, label });
+      filters.push({ value, options, field });
     }
 
     Object.assign(context, { filters });

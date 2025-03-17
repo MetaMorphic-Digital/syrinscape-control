@@ -1,6 +1,8 @@
 <section>
   {{#if (gt results.length 1000)}}
-  <p>Too many results. Please filter on the left.</p>
+  <p>{{localize "SYRINSCAPE.BROWSER.HINTS.results.many"}}</p>
+  {{else if (eq results.length 0)}}
+  <p>{{localize "SYRINSCAPE.BROWSER.HINTS.results.none"}}</p>
   {{else}}
   <ul class="entries">
     {{#each results}}
