@@ -1,6 +1,6 @@
 import { moduleId } from "./constants.mjs";
 
-const { StringField } = foundry.data.fields;
+const { ObjectField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class SyrinScapeSettingsHandler {
   /**
@@ -22,7 +22,14 @@ export default class SyrinScapeSettingsHandler {
         name: "SYRINSCAPE.SETTINGS.SessionId.name",
         type: new StringField({ blank: false }),
         scope: "world",
+        config: true,
         onChange: (value) => syrinscape.config.sessionid = value,
+      },
+
+      csvData: {
+        type: new TypedObjectField(new ObjectField()),
+        scope: "world",
+        config: false,
       },
 
       address: {

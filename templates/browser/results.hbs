@@ -1,20 +1,10 @@
 <section>
-  {{#if (gt results.size 1000)}}
-  <p>Too many results. Please filter on the left.</p>
+  {{#if (eq results.length 0)}}
+  <p>{{localize "SYRINSCAPE.BROWSER.HINTS.results.none"}}</p>
   {{else}}
   <ul class="entries">
     {{#each results}}
-    <li class="entry" data-id="{{id}}" data-name="{{name}}">
-      <a draggable="" class="draggable"> <i class="icon fa-solid fa-grip-lines"></i> </a>
-      <h4 class="title">
-        <span class="name">{{name}}</span>
-        <span class="soundset">{{soundset}}</span>
-      </h4>
-      <div class="controls">
-        <a data-action="burger"> <i class="fa-solid fa-ellipsis-vertical"></i> </a>
-        <button type="button" data-action="play" class="icon fa-solid fa-volume-high"></button>
-      </div>
-    </li>
+    {{> "modules/syrinscape-control/templates/browser/result.hbs"}}
     {{/each}}
   </ul>
   {{/if}}

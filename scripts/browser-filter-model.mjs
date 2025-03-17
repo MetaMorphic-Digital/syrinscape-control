@@ -29,6 +29,11 @@ export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
+  /** @inheritdoc */
+  static LOCALIZATION_PREFIXES = ["SYRINSCAPE.FILTERS"];
+
+  /* -------------------------------------------------- */
+
   /**
    * Turn this model into a filtering configuration.
    * @returns {object}    Filtering configuration.
@@ -113,7 +118,7 @@ export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
         for (const k of Object.keys(data)) {
           const key = {
             product: "product_or_pack",
-            subtype: "subType",
+            subtype: "sub_type",
           }[k] ?? k;
           const v = entry[key];
           if (v) data[k].add(v);
