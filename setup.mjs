@@ -99,5 +99,5 @@ Hooks.on("globalAmbientVolumeChanged", (volume) => {
  */
 
 Hooks.on("renderPlaylistSoundConfig", hooks.renderPlaylistSoundConfig);
-Hooks.on("renderAmbientSoundConfig", hooks.renderAmbientSoundConfig);
+// Hooks.on("renderAmbientSoundConfig", hooks.renderAmbientSoundConfig);
 Hooks.on("renderPlaylistDirectory", hooks.renderPlaylistDirectory);
