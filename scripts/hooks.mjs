@@ -54,7 +54,7 @@ export function renderPlaylistSoundConfig(app, html, context, options) {
  * @param {HTMLElement} html
  * @param {object} context
  * @param {object} options
- * @remarks Not called in Setup due to limitations in the Syrinscape API with per-player per-sound controls.
+ * @remarks Not called in Setup due to limitations in the Syrinscape API with per-player per-sound controls. See #7 for details.
  */
 export function renderAmbientSoundConfig(app, html, context, options) {
   /** @type {AmbientSoundDocument} */

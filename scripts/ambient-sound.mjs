@@ -5,7 +5,7 @@ import SyrinscapeSound from "./sound-extension.mjs";
 
 /**
  * Register the Syrinscape Ambient Sound document & object classes
- * @remarks Not called in Setup due to limitations in the Syrinscape API with per-player per-sound controls.
+ * @remarks Not called in Setup due to limitations in the Syrinscape API with per-player per-sound controls. See #7 for details.
  */
 export default function registerSyrinscapeAmbientSound() {
 
