@@ -101,12 +101,10 @@ Hooks.once("init", () => {
   syrinscapeControl.storage.initializeSoundData();
 
   syrinscape.events.startSample.addListener(event => {
-    console.warn(event);
     syrinscapeControl.storage._addPlaying(event.detail);
   });
 
   syrinscape.events.stopSample.addListener(event => {
-    console.warn(event);
     syrinscapeControl.storage._removePlaying(event.detail);
   });
 

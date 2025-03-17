@@ -4,7 +4,6 @@ import SyrinscapeViewer from "./scripts/viewer.mjs";
 import SyrinScapeSettingsHandler from "./scripts/settings.mjs";
 import SyrinscapeStorage from "./scripts/storage.mjs";
 import SoundManager from "./scripts/sound-manager.mjs";
-import registerSyrinscapeAmbientSound from "./scripts/ambient-sound.mjs";
 import registerSyrinscapePlaylistSound from "./scripts/playlist-sound.mjs";
 import { moduleId } from "./scripts/constants.mjs";
 import * as hooks from "./scripts/hooks.mjs";
@@ -33,8 +32,6 @@ CONFIG.ui.syrinscapeBrowser = SyrinscapeBrowser;
 
 Hooks.once("init", () => {
   SyrinScapeSettingsHandler.registerSettings();
-
-  registerSyrinscapeAmbientSound();
 
   registerSyrinscapePlaylistSound();
 });
@@ -102,5 +99,5 @@ Hooks.on("globalAmbientVolumeChanged", (volume) => {
  */
 
 Hooks.on("renderPlaylistSoundConfig", hooks.renderPlaylistSoundConfig);
-Hooks.on("renderAmbientSoundConfig", hooks.renderAmbientSoundConfig);
+// Hooks.on("renderAmbientSoundConfig", hooks.renderAmbientSoundConfig);
 Hooks.on("renderPlaylistDirectory", hooks.renderPlaylistDirectory);
