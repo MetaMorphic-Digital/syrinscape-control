@@ -44,6 +44,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     },
     results: {
       template: "modules/syrinscape-control/templates/browser/results.hbs",
+      templates: ["modules/syrinscape-control/templates/browser/result.hbs"],
       classes: ["scrollable"],
       scrollable: [""],
     },
@@ -62,6 +63,67 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       labelPrefix: "SYRINSCAPE.BROWSER.TABS",
     },
   };
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The number of pixels from the bottom before loading additional results.
+   * @type {number}
+   */
+  static #BATCH_MARGIN = 50;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * The batch size of loaded results.
+   * @type {number}
+   */
+  static #BATCH_SIZE = 50;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Found results segmented into batches of size equal to #BATCH_SIZE.
+   * This property is re-assigned each time 'results' is re-rendered.
+   * @type {Generator}
+   */
+  #batches;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is inserting batched results currently in progress?
+   * @type {boolean}
+   */
+  #renderThrottle = false;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Get the next batch of results.
+   * @returns {object[]}
+   */
+  #getNextBatch() {
+    return [...this.#batches.next().value ?? []];
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Produce batches of #BATCH_SIZE of the found results.
+   * @param {object[]} iter   The found results.
+   */
+  *#segmentizeResults(iter) {
+    iter = Iterator.from(iter);
+    while (true) {
+      const { value, done } = iter.next();
+      if (done) break;
+      yield function*() {
+        yield value;
+        yield* iter.take(SyrinscapeBrowser.#BATCH_SIZE - 1);
+      }();
+    }
+  }
 
   /* -------------------------------------------------- */
   /*   Rendering                                        */
@@ -91,6 +153,16 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     super._onRender(context, options);
     this.#initializeContextMenu();
     this.#initializeDragDrop();
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _attachFrameListeners() {
+    super._attachFrameListeners();
+    this.element.addEventListener("scroll", SyrinscapeBrowser.#scrollResults.bind(this), {
+      capture: true, passive: true,
+    });
   }
 
   /* -------------------------------------------------- */
@@ -157,12 +229,12 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   async #preparePartResults(context, options) {
     const filterData = this.#createFilterData({ moods: "mood", oneshots: "element" }[this.tabGroups.primary]);
-    const results = context.collection.getByProperty(filterData);
-    Object.assign(context, {
-      results: results.contents
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .sort((a, b) => a.soundset.localeCompare(b.soundset)),
-    });
+    const results = context.collection.getByProperty(filterData).contents
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => a.soundset.localeCompare(b.soundset));
+
+    this.#batches = this.#segmentizeResults(results);
+    Object.assign(context, { results: this.#getNextBatch() });
   }
 
   /* -------------------------------------------------- */
@@ -236,6 +308,26 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     } else {
       syrinscapeControl.utils.playElement(id);
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Insert additional results when scrolling to the bottom.
+   * @this {SyrinscapeBrowser}
+   * @param {Event} event   The scroll event.
+   */
+  static async #scrollResults(event) {
+    if (this.#renderThrottle || !event.target.matches("[data-application-part='results']")) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = event.target;
+    if (scrollTop + clientHeight < scrollHeight - SyrinscapeBrowser.#BATCH_MARGIN) return;
+    this.#renderThrottle = true;
+    const parent = event.target.querySelector(".entries");
+    const results = await Promise.all(this.#getNextBatch().map(r => renderTemplate("modules/syrinscape-control/templates/browser/result.hbs", r,
+    )));
+    parent.insertAdjacentHTML("beforeend", results.join(""));
+    this.#renderThrottle = false;
   }
 
   /* -------------------------------------------------- */
