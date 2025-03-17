@@ -4,7 +4,6 @@
     "BROWSER": {
       "HINTS": {
         "results": {
-          "many": "Too many results. Please narrow down the filters on the left.",
           "none": "No results found."
         }
       },
