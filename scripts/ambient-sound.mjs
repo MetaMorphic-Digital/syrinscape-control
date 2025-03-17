@@ -1,7 +1,12 @@
 import { moduleId } from "./constants.mjs";
 import SyrinscapeSound from "./sound-extension.mjs";
+
 /** @import SoundManager from "./sound-manager.mjs" */
 
+/**
+ * Register the Syrinscape Ambient Sound document & object classes
+ * @remarks Not called in Setup due to limitations in the Syrinscape API with per-player per-sound controls.
+ */
 export default function registerSyrinscapeAmbientSound() {
 
   class SyrinscapeAmbientSoundDocument extends CONFIG.AmbientSound.documentClass {
