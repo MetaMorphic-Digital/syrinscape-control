@@ -157,7 +157,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {object} options    Rendering options.
    */
   async #preparePartResults(context, options) {
-    const filterData = this.#createFilterData({ moods: "mood", elements: "element" }[this.options.tab]);
+    const filterData = this.#createFilterData({ moods: "mood", oneshots: "element" }[this.tabGroups.primary]);
     const results = context.collection.getByProperty(filterData);
     Object.assign(context, {
       results: results.contents
@@ -174,7 +174,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @returns {object}                The filtering configuration.
    */
   #createFilterData(type) {
-    return Object.assign(this.#filterModel.toConfiguration(), { type });
+    return Object.assign(this.#filterModel.toConfiguration(), { type: [type] });
   }
 
   /* -------------------------------------------------- */
@@ -232,8 +232,11 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   static #onClickPlay(event, target) {
     const id = target.closest(".entry").dataset.id;
     // TODO: the play button should change if the mood/element is currently playing
-    // TODO: use utils.playElement depending
-    syrinscapeControl.utils.playMood(id);
+    if (this.tabGroups.primary === "moods") {
+      syrinscapeControl.utils.playMood(id);
+    } else {
+      syrinscapeControl.utils.playElement(id);
+    }
   }
 
   /* -------------------------------------------------- */

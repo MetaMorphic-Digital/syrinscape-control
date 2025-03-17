@@ -68,7 +68,7 @@ export async function setVolume(value, { type = "local" } = {}) {
  * @returns {Promise<boolean>}      Whether the request was successful.
  */
 export async function playElement(id) {
-  id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
+  id = (typeof id === "string") ? id.replace("e:", "").trim() : String(id);
   try {
     await syrinscape.player.controlSystem.startElements([id]);
     return true;
@@ -81,7 +81,7 @@ export async function playElement(id) {
 /* -------------------------------------------------- */
 
 export async function stopElement(id) {
-  id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
+  id = (typeof id === "string") ? id.replace("e:", "").trim() : String(id);
   try {
     await syrinscape.player.controlSystem.stopElements([id]);
     return true;

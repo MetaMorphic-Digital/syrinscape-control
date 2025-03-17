@@ -113,7 +113,7 @@ export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
         for (const k of Object.keys(data)) {
           const key = {
             product: "product_or_pack",
-            subtype: "subType",
+            subtype: "sub_type",
           }[k] ?? k;
           const v = entry[key];
           if (v) data[k].add(v);
