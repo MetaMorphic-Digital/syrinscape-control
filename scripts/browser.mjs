@@ -1,3 +1,5 @@
+import { moduleId } from "./constants.mjs";
+
 const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -420,8 +422,24 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {DragEvent} event   The drag event.
    */
   static #dragStart(event) {
-    console.warn(event.target, event.currentTarget);
-    // TODO: this should be used for dropping a sound onto the canvas (ambient sound) or onto the hotbar (toggle macro)
-    // event.dataTransfer.setData("text/plain", event.target.dataset.uuid);
+    const entry = event.target.closest("[data-id]");
+    const entryId = entry.dataset.id;
+    const [typeAbbrev, soundId] = entryId.split(":");
+
+    // With AmbientSound creation blocked, this is a fairly clean way to handle the playlist creation
+    const dragData = {
+      type: "PlaylistSound",
+      data: {
+        name: entry.dataset.name,
+        flags: {
+          [moduleId]: {
+            soundType: typeAbbrev === "e" ? "element" : "mood",
+            soundId,
+          },
+        },
+      },
+    };
+
+    event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 }
