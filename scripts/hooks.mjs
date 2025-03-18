@@ -104,13 +104,19 @@ export function renderAmbientSoundConfig(app, html, context, options) {
  */
 export function renderPlaylistDirectory(directory, element) {
   if (!game.user.isGM) return;
+  let button = element.querySelector("[data-action=syrinscapeBrowser]");
+
+  // Partial re-renders, such as toggling the playing location, can result in this hook being called
+  // without the removal of the previous button
+  if (button) return;
+
   element.querySelector(".header-actions").insertAdjacentHTML("beforeend", `
     <button type="button" data-action="syrinscapeBrowser">
       <i class="fa-solid fa-file-audio" inert></i>
       <span>Open Syrinscape Browser</span>
     </button>`,
   );
-  const button = element.querySelector("[data-action=syrinscapeBrowser]");
+  button = element.querySelector("[data-action=syrinscapeBrowser]");
   button.addEventListener("click", async () => {
     if (!syrinscapeControl.storage.soundData) {
       ui.notifications.error("SYRINSCAPE.BROWSER.WARNING.cached", { localize: true });
