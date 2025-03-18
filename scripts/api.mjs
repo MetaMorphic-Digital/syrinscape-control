@@ -173,25 +173,22 @@ export async function retrieveElements(uuid) {
 
 /* -------------------------------------------------- */
 
-// export async function TEST() {
-//   const url = "https://syrinscape.com/account/remote-control-links-csv/";
+/**
+ * Get all moods currently playing.
+ * @returns {Promise<object[]>}   A promise that resolves to an array of objects,
+ *                                each with the mood id and human-readable label.
+ */
+export async function currentlyPlayingMoods() {
+  const url = "https://syrinscape.com/search/?playing=Playing Now";
+  const response = await fetch(url, syrinscapeControl.sound.requestOptions);
+  const json = await response.json();
 
-//   try {
-//     const response = await fetch(url, {
-//       ...syrinscapeControl.sound.requestOptions,
-//       mode: "cors",
-//       method: "HEAD",
-//     });
-//     console.warn(response);
-//     const contentDisposition = response.headers.get("Content-Disposition");
-//     console.warn(contentDisposition);
-//     const text = await response.text();
-//     console.warn(text);
-//     return text;
-//   } catch (err) {
-//     console.error(err);
-//   }
-// }
+  return json.results.filter(result => {
+    return result.playing_now && (result.model_name === "Mood");
+  }).map(result => {
+    return { id: result.pk, label: result.title };
+  });
+}
 
 /* -------------------------------------------------- */
 

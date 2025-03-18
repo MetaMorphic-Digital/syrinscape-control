@@ -8,7 +8,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     tab: "moods",
     tag: "form",
     position: {
-      width: 800,
+      width: 1000,
       height: 800,
     },
     window: {
@@ -353,12 +353,48 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @returns {object[]}    Context menu options.
    */
   _getSyrinscapeContextOptions() {
-    // TODO: play, stop, create macro, create playlist(?), create ambient sound
-    return [{
-      name: "HELLO1",
-    }, {
-      name: "HELLO2",
-    }];
+    const isMoods = () => this.tabGroups.primary === "moods";
+    const getEntry = li => this.#cachedCollection.get(li.dataset.id);
+    const isPlaying = li => syrinscapeControl.storage.isPlaying(li.dataset.id);
+
+    return [
+      {
+        name: "SYRINSCAPE.BROWSER.CONTEXTMENU.play",
+        condition: li => !isPlaying(li),
+        icon: "<i class='fa-solid fa-fw fa-circle-play'></i>",
+        callback: li => {
+          const id = li.dataset.id;
+          if (isMoods()) syrinscapeControl.utils.playMood(id);
+          else syrinscapeControl.utils.playElement(id);
+        },
+      },
+      {
+        name: "SYRINSCAPE.BROWSER.CONTEXTMENU.stop",
+        condition: li => isPlaying(li),
+        icon: "<i class='fa-solid fa-fw fa-stop'></i>",
+        callback: li => {
+          const id = li.dataset.id;
+          if (isMoods()) syrinscapeControl.utils.stopMood(id);
+          else syrinscapeControl.utils.stopElement(id);
+        },
+      },
+      {
+        name: "SYRINSCAPE.BROWSER.CONTEXTMENU.macro",
+        condition: li => false && game.user.can("MACRO_SCRIPT"), // TODO
+        icon: "<i class='fa-solid fa-fw fa-code'></i>",
+        callback: li => {
+          // TODO
+        },
+      },
+      {
+        name: "SYRINSCAPE.BROWSER.CONTEXTMENU.playlist",
+        condition: li => false && game.user.can("PLAYLIST_CREATE") && isMoods(), // TODO
+        icon: "<i class='fa-solid fa-fw fa-music'></i>",
+        callback: li => {
+          // TODO
+        },
+      },
+    ];
   }
 
   /* -------------------------------------------------- */

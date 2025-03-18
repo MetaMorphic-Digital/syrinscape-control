@@ -2,6 +2,12 @@
   "SYRINSCAPE": {
     "NAME": "Syrinscape",
     "BROWSER": {
+      "CONTEXTMENU": {
+        "play": "Play",
+        "stop": "Stop Playback",
+        "macro": "Create Macro",
+        "playlist": "Create Playlist"
+      },
       "HINTS": {
         "results": {
           "none": "No results found."
