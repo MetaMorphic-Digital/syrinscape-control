@@ -21,7 +21,7 @@ export default class SyrinscapeStorage {
 
   /**
    * Cached collection.
-   * @type {syrinscapeControl}
+   * @type {SyrinCollection}
    */
   #collection;
 
@@ -80,33 +80,130 @@ export default class SyrinscapeStorage {
   }
 
   /* -------------------------------------------------- */
+  /*   Tracked playing sounds                           */
+  /* -------------------------------------------------- */
 
+  /**
+   * All playing sounds.
+   * @type {Map<number, object>}
+   */
   #playing = new Map();
 
   /* -------------------------------------------------- */
 
-  _addPlaying({ elementId, playlistEntryId, timeToStop, timeToStopOrNextSample }) {
-    this.#playing.set(elementId, { elementId, playlistEntryId, timeToStop, timeToStopOrNextSample });
+  /**
+   * Ids of all playing elements.
+   * @type {Set<number>}
+   */
+  #playingElements = new Set();
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Ids of all playing samples.
+   * @type {Set<number>}
+   */
+  #playingSamples = new Set();
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Ids of all playing moods.
+   * @remark Not currently used.
+   * @type {Set<number>}
+   */
+  #playingMoods = new Set();
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Track a new sound as being actively playing.
+   * @param {string} type       The sound type (element, sample, mood).
+   * @param {object} details    Sound data.
+   */
+  _addPlaying(type, details) {
+    this.#playing.set(details.elementId, details);
+    switch (type) {
+      case "sample":
+        this.#playingSamples.add(details.elementId);
+        break;
+      case "element":
+        this.#playingElements.add(details.elementId);
+        break;
+      case "mood":
+        this.#playingMoods.add(details.elementId);
+        break;
+    }
   }
 
   /* -------------------------------------------------- */
 
-  _removePlaying({ elementId, playlistEntryId, sampleId, timeToStop }) {
-    this.#playing.delete(elementId);
+  /**
+   * Remove a playing sound from the tracking once it is stopped.
+   * @param {string} type             The sound type (element, sample, mood).
+   * @param {object|"ALL"} details    Sound data.
+   */
+  _removePlaying(type, details) {
+    this.#playing.delete(details.elementId);
+    switch (type) {
+      case "sample":
+        this.#playingSamples.delete(details.elementId);
+        break;
+      case "element":
+        this.#playingElements.delete(details.elementId);
+        break;
+      case "mood":
+        if (details === "ALL") {
+          this.#playingMoods.clear();
+        } else {
+          this.#playingMoods.delete(details.elementId);
+        }
+        break;
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is this mood, sample, element currently playing?
+   * @param {string|number} elementId   The id of the sound.
+   * @returns {boolean}                 Whether the sound is playing.
+   */
+  isPlaying(elementId) {
+    const id = (typeof elementId === "number") ? elementId : parseInt(elementId.split(":").at(-1));
+    return this.#playing.has(id);
   }
 }
+
+/* -------------------------------------------------- */
 
 Hooks.once("init", () => {
   syrinscapeControl.storage = new SyrinscapeStorage();
   syrinscapeControl.storage.initializeSoundData();
 
   syrinscape.events.startSample.addListener(event => {
-    syrinscapeControl.storage._addPlaying(event.detail);
+    syrinscapeControl.storage._addPlaying("sample", event.detail);
   });
-
   syrinscape.events.stopSample.addListener(event => {
-    syrinscapeControl.storage._removePlaying(event.detail);
+    syrinscapeControl.storage._removePlaying("sample", event.detail);
   });
 
-  // TODO: add more event listeners, add way to get all currently playing elements/moods(/samples?)
+  syrinscape.events.startElement.addListener(event => {
+    syrinscapeControl.storage._addPlaying("element", event.detail);
+  });
+  syrinscape.events.stopElement.addListener(event => {
+    syrinscapeControl.storage._removePlaying("element", event.detail);
+  });
+
+  // Doing it for moods is different.
+  syrinscape.player.socketSystem.onMessage.addListener(({ message, params }) => {
+    switch (message) {
+      case "send_full":
+      case "send_partial":
+        syrinscapeControl.storage._addPlaying("mood", { ... params, elementId: params.mood_pk });
+        break;
+      case "stop_all":
+        syrinscapeControl.storage._removePlaying("mood", "ALL");
+    }
+  });
 });
