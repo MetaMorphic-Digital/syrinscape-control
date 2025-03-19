@@ -1,6 +1,6 @@
 {
   "id": "syrinscape-control",
-  "title": "SyrinScape Controller",
+  "title": "Syrinscape Controller",
   "version": "AUTOMATIC",
   "authors": [
     {
@@ -9,7 +9,7 @@
     }
   ],
   "compatibility": {
-    "minimum": "13",
+    "minimum": "13.338",
     "verified": "13"
   },
   "esmodules": [

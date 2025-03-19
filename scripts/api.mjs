@@ -327,12 +327,14 @@ export class SyrinCollection extends foundry.utils.Collection {
   #elements = [];
 }
 
+/* -------------------------------------------------- */
+
 /**
  * https://stackoverflow.com/questions/1293147/
  * @param {string} str    String to parse.
  * @returns {string[][]}
  */
-function parseCSV(str) {
+export function parseCSV(str) {
   const arr = [];
   let quote = false; // 'true' means we're inside a quoted field
 
