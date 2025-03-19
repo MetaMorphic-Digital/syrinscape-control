@@ -51,7 +51,11 @@ Hooks.once("ready", () => {
         // It's possible we want to create this in its own context rather than defer to Environment
         syrinscape.config.audioContext = game.audio.environment;
 
-        syrinscape.config.token = game.settings.get(moduleId, "authToken") ?? "";
+        const authToken = game.settings.get(moduleId, "authToken");
+
+        if (!authToken) ui.notifications.error("SYRINSCAPE.SETTINGS.AUTH.Error", { localize: true, permanent: true });
+
+        syrinscape.config.token = authToken ?? "";
 
         await syrinscape.config.sync();
 
