@@ -97,13 +97,20 @@ export function renderAmbientSoundConfig(app, html, context, options) {
 
 /* -------------------------------------------------- */
 
+/** @import PlaylistDirectory from "../foundry/client/applications/sidebar/tabs/playlist-directory.mjs" */
+
 /**
  * Add a button for GMs to open the Syrinscape browser.
- * @param {InstanceType<foundry["applications"]["sidebar"]["tabs"]["PlaylistDirectory"]>} directory
+ * @param {PlaylistDirectory} directory The playlist directory
  * @param {HTMLElement} element         The application element.
+ * @param {object} context              context used to render the directory
+ * @param {object} options              Render Options
  */
-export function renderPlaylistDirectory(directory, element) {
+export function renderPlaylistDirectory(directory, element, context, options) {
   if (!game.user.isGM) return;
+
+  if (options.parts && !options.parts.includes("header")) return;
+
   element.querySelector(".header-actions").insertAdjacentHTML("beforeend", `
     <button type="button" data-action="syrinscapeBrowser">
       <i class="fa-solid fa-file-audio" inert></i>

@@ -11,6 +11,17 @@ export default function registerSyrinscapePlaylistSound() {
     }
 
     /** @inheritdoc */
+    async _preUpdate(changed, options, user) {
+      const allowed = await super._preUpdate(changed, options, user);
+      if (allowed === false) return false;
+
+      // Syrinscape doesn't allow resuming sounds
+      if (this.syrinscapeURL) {
+        if (changed.playing === false) changed.pausedTime = null;
+      }
+    }
+
+    /** @inheritdoc */
     _createSound() {
       if (game.audio.locked) {
         throw new Error("You may not call PlaylistSound#_createSound until after game audio is unlocked.");
