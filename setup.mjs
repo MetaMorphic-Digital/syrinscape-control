@@ -1,7 +1,7 @@
 import SyrinscapeBrowser from "./scripts/browser.mjs";
 import SyrinscapeFilterModel from "./scripts/browser-filter-model.mjs";
 import SyrinscapeViewer from "./scripts/viewer.mjs";
-import SyrinScapeSettingsHandler from "./scripts/settings.mjs";
+import SyrinscapeSettingsHandler from "./scripts/settings.mjs";
 import SyrinscapeStorage from "./scripts/storage.mjs";
 import SoundManager from "./scripts/sound-manager.mjs";
 import registerSyrinscapePlaylistSound from "./scripts/playlist-sound.mjs";
@@ -31,7 +31,7 @@ CONFIG.ui.syrinscapeBrowser = SyrinscapeBrowser;
 /* -------------------------------------------------- */
 
 Hooks.once("init", () => {
-  SyrinScapeSettingsHandler.registerSettings();
+  SyrinscapeSettingsHandler.registerSettings();
 
   registerSyrinscapePlaylistSound();
 });

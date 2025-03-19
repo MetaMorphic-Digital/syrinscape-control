@@ -2,7 +2,7 @@ import { moduleId } from "./constants.mjs";
 
 const { ObjectField, StringField, TypedObjectField } = foundry.data.fields;
 
-export default class SyrinScapeSettingsHandler {
+export default class SyrinscapeSettingsHandler {
   /**
    * The settings to register.
    * @type {Record<string, object>}

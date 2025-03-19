@@ -153,7 +153,11 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /** @inheritdoc */
   _onRender(context, options) {
     super._onRender(context, options);
-    this.#initializeContextMenu();
+    this._createContextMenu(this.#getSyrinscapeContextOptions, ".entry", {
+      container: this.element,
+      fixed: true,
+      hookName: "getSyrinscapeContextOptions",
+    });
     this.#initializeDragDrop();
   }
 
@@ -337,24 +341,10 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Initialize the context menu handler.
-   */
-  #initializeContextMenu() {
-    // TODO: ContextMenu.create is deprecated: https://github.com/foundryvtt/foundryvtt/issues/12335
-    foundry.applications.ui.ContextMenu.create(this, this.element, ".entry", {
-      hookName: "SyrinscapeContext",
-      jQuery: false,
-      fixed: true,
-    });
-  }
-
-  /* -------------------------------------------------- */
-
-  /**
    * Prepare context menu options for the moods and oneshots lists.
    * @returns {object[]}    Context menu options.
    */
-  _getSyrinscapeContextOptions() {
+  #getSyrinscapeContextOptions() {
     const isMoods = () => this.tabGroups.primary === "moods";
     const getEntry = li => this.#cachedCollection.get(li.dataset.id);
     const isPlaying = li => syrinscapeControl.storage.isPlaying(li.dataset.id);

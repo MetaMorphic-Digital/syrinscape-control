@@ -1,7 +1,7 @@
 {
   "name": "syrinscape-control",
   "version": "1.0.0",
-  "description": "SyrinScape Controller",
+  "description": "Syrinscape Controller",
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "createSymlinks": "node ./tools/create-symlinks.mjs",

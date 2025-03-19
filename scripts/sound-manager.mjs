@@ -30,13 +30,13 @@ export default class SoundManager {
    */
   async fetchJson(url) {
     const requestOptions = this.requestOptions;
-    if (!requestOptions) throw new Error("SyrinScape Controller | You need to successfully initialize syrinscape.config first.");
+    if (!requestOptions) throw new Error("Syrinscape Controller | You need to successfully initialize syrinscape.config first.");
     url = `${game.settings.get(moduleId, "address")}/${url}`;
     const response = await fetch(url, requestOptions);
 
     if (!response.ok) {
       console.error(response, await response.json());
-      throw new Error("SyrinScape Controller | Response Not OK!", { cause: response });
+      throw new Error("Syrinscape Controller | Response Not OK!", { cause: response });
     }
 
     return response.json();

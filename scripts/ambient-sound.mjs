@@ -12,6 +12,7 @@ export default function registerSyrinscapeAmbientSound() {
   class SyrinscapeAmbientSoundDocument extends CONFIG.AmbientSound.documentClass {
     /**
      * URL for use with the {@link SoundManager}
+     * @type {string|null}
      */
     get syrinscapeURL() {
       const soundType = this.getFlag(moduleId, "soundType");
@@ -19,6 +20,8 @@ export default function registerSyrinscapeAmbientSound() {
       if (soundType && soundId) return `${soundType}s/${soundId}`;
       else return null;
     }
+
+    /* -------------------------------------------------- */
 
     /** @inheritdoc */
     prepareDerivedData() {
