@@ -157,6 +157,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       container: this.element,
       fixed: true,
       hookName: "getSyrinscapeContextOptions",
+      parentClassHooks: false,
     });
     this.#initializeDragDrop();
   }
