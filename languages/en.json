@@ -47,6 +47,9 @@
       "AUTH": {
         "name": "Auth Token",
         "hint": "Paste your token in from syrinscape.com/account/auth-token."
+      },
+      "SessionId": {
+        "name": "Session ID"
       }
     },
     "SoundType": {
@@ -63,6 +66,9 @@
       "SoundTypeLabel": "Syrinscape Sound Type",
       "SoundIdLabel": "Syrinscape Sound ID",
       "SoundIdHint": "If present, used as an alternative to the source file"
+    },
+    "Errors": {
+      "Auth": "Syrinscape Controller: No Authentication Token Detected"
     }
   }
 }
