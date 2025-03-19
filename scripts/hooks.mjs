@@ -97,18 +97,19 @@ export function renderAmbientSoundConfig(app, html, context, options) {
 
 /* -------------------------------------------------- */
 
+/** @import PlaylistDirectory from "../foundry/client/applications/sidebar/tabs/playlist-directory.mjs" */
+
 /**
  * Add a button for GMs to open the Syrinscape browser.
- * @param {InstanceType<foundry["applications"]["sidebar"]["tabs"]["PlaylistDirectory"]>} directory
+ * @param {PlaylistDirectory} directory The playlist directory
  * @param {HTMLElement} element         The application element.
+ * @param {object} context              context used to render the directory
+ * @param {object} options              Render Options
  */
-export function renderPlaylistDirectory(directory, element) {
+export function renderPlaylistDirectory(directory, element, context, options) {
   if (!game.user.isGM) return;
-  let button = element.querySelector("[data-action=syrinscapeBrowser]");
 
-  // Partial re-renders, such as toggling the playing location, can result in this hook being called
-  // without the removal of the previous button
-  if (button) return;
+  if (options.parts && !options.parts.includes("header")) return;
 
   element.querySelector(".header-actions").insertAdjacentHTML("beforeend", `
     <button type="button" data-action="syrinscapeBrowser">
@@ -116,7 +117,7 @@ export function renderPlaylistDirectory(directory, element) {
       <span>Open Syrinscape Browser</span>
     </button>`,
   );
-  button = element.querySelector("[data-action=syrinscapeBrowser]");
+  const button = element.querySelector("[data-action=syrinscapeBrowser]");
   button.addEventListener("click", async () => {
     if (!syrinscapeControl.storage.soundData) {
       ui.notifications.error("SYRINSCAPE.BROWSER.WARNING.cached", { localize: true });
