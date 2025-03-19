@@ -53,7 +53,7 @@ Hooks.once("ready", () => {
 
         const authToken = game.settings.get(moduleId, "authToken");
 
-        if (!authToken) ui.notifications.error("SYRINSCAPE.SETTINGS.AUTH.Error", { localize: true, permanent: true });
+        if (!authToken) ui.notifications.error("SYRINSCAPE.Errors.Auth", { localize: true, permanent: true });
 
         syrinscape.config.token = authToken ?? "";
 
