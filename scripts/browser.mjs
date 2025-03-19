@@ -276,7 +276,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @this {SyrinscapeBrowser}
    * @param {Event} event             Triggering change event.
    * @param {HTMLFormElement} form    The element of this application.
-   * @param {FormDataExtended} formData   The form data.
+   * @param {import("../foundry/client/applications/ux/form-data-extended.mjs").default} formData   The form data.
    */
   static #onChangeFilters(event, form, formData) {
     this.#filterModel.updateSource(formData.object);
