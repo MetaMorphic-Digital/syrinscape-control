@@ -1,6 +1,17 @@
 import { flagScope, moduleId, soundTypes } from "./constants.mjs";
 
 /**
+ * A hook event that fires when some useful data is dropped onto the Canvas.
+ * @event dropCanvasData
+ * @category Canvas
+ * @param {import("../foundry/client/canvas/board.mjs").default} canvas The Canvas
+ * @param {object} data   The data that has been dropped onto the Canvas
+ */
+export function dropCanvasData(canvas, data) {
+  if (foundry.utils.getProperty(data, "data.flags.syrinscape-control.soundId")) return false;
+}
+
+/**
  * Add Syrinscape-specific inputs to the PlaylistSoundConfig app
  * @param {InstanceType<foundry["applications"]["sheets"]["PlaylistSoundConfig"]>} app
  * @param {HTMLElement} html
