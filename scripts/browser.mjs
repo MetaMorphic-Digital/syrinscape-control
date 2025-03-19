@@ -397,7 +397,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * Initialize the drag-drop handler.
    */
   #initializeDragDrop() {
-    const drag = new DragDrop({
+    const drag = new foundry.applications.ux.DragDrop({
       dragSelector: "[draggable]",
       callbacks: { dragstart: SyrinscapeBrowser.#dragStart.bind(this) },
     });
