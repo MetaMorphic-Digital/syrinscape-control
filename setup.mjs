@@ -94,6 +94,9 @@ Hooks.on("globalAmbientVolumeChanged", (volume) => {
   syrinscape.player.audioSystem.setLocalVolume(volume);
 });
 
+// Prevent creating ambient sounds from the Syrinscape Browser
+Hooks.on("dropCanvasData", hooks.dropCanvasData);
+
 /**
  * App Rendering Hooks
  */
