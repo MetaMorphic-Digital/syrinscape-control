@@ -147,3 +147,62 @@ export function renderPlaylistDirectory(directory, element, context, options) {
 export function localizeDataModels() {
   Localization.localizeDataModel(syrinscapeControl.data.SyrinscapeFilterModel);
 }
+
+/* -------------------------------------------------- */
+
+/**
+ * Prevent regular hotbar macro creation when dropping a syrinscape sound onto the hotbar.
+ * @param {Hotbar} hotbar   The hotbar application.
+ * @param {object} drop     The drop data.
+ * @param {string} slot     The slot number.
+ */
+export function hotbarDrop(hotbar, drop, slot) {
+  const { soundType, soundId } = foundry.utils.getProperty(drop, "data.flags.syrinscape-control") ?? {};
+  if (soundType && soundId) {
+    _createHotbarMacro(hotbar, drop, slot);
+    return false;
+  }
+}
+
+/**
+ * Create and assign a Syrinscape hotbar macro.
+ * @param {Hotbar} hotbar   The hotbar application.
+ * @param {object} drop     The drop data.
+ * @param {string} slot     The slot number.
+ */
+async function _createHotbarMacro(hotbar, drop, slot) {
+  const { soundType, soundId } = foundry.utils.getProperty(drop, "data.flags.syrinscape-control");
+
+  let command;
+  let name;
+  switch (soundType) {
+    case "mood":
+      command = `syrinscapeControl.utils.playMood(${soundId})`;
+      name = `Mood: ${drop.data.name}`;
+      break;
+    default:
+      command = `syrinscapeControl.utils.playElement(${soundId})`;
+      name = `Element: ${drop.data.name}`;
+      break;
+  }
+
+  const folder = game.macros.folders.find(folder => {
+    return folder.getFlag(moduleId, "macro");
+  }) ?? await getDocumentClass("Folder").create({
+    name: "Syrinscape",
+    type: "Macro",
+    "flags.syrinscape-control.macro": true,
+  });
+
+  const macro = game.macros.find(macro => {
+    return (macro.name === name) && (macro.command === command);
+  }) ?? await getDocumentClass("Macro").create({
+    name, command,
+    img: "icons/svg/sound.svg",
+    type: "script",
+    "flags.syrinscape-control.macro": soundType,
+    folder: folder.id,
+  });
+
+  game.user.assignHotbarMacro(macro, slot);
+}

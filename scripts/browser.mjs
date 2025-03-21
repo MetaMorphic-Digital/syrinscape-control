@@ -330,10 +330,17 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     const { scrollTop, scrollHeight, clientHeight } = event.target;
     if (scrollTop + clientHeight < scrollHeight - SyrinscapeBrowser.#BATCH_MARGIN) return;
     this.#renderThrottle = true;
+    /** @type {HTMLElement} */
     const parent = event.target.querySelector(".entries");
-    const results = await Promise.all(this.#getNextBatch().map(r => renderTemplate("modules/syrinscape-control/templates/browser/result.hbs", r,
-    )));
-    parent.insertAdjacentHTML("beforeend", results.join(""));
+    const results = await Promise.all(this.#getNextBatch().map(r => {
+      return foundry.applications.handlebars.renderTemplate("modules/syrinscape-control/templates/browser/result.hbs", r);
+    }));
+    const template = document.createElement("UL");
+    template.innerHTML = results.join("");
+    this.#dragdrop.bind(template);
+    for (const c of template.childNodes) {
+      parent.insertAdjacentElement("beforeend", c);
+    }
     this.#renderThrottle = false;
   }
 
@@ -395,6 +402,14 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
+   * Reference to this application's drag-drop instance.
+   * @type {DragDrop}
+   */
+  #dragdrop;
+
+  /* -------------------------------------------------- */
+
+  /**
    * Initialize the drag-drop handler.
    */
   #initializeDragDrop() {
@@ -402,7 +417,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       dragSelector: "[draggable]",
       callbacks: { dragstart: SyrinscapeBrowser.#dragStart.bind(this) },
     });
-    drag.bind(this.element);
+    this.#dragdrop = drag.bind(this.element);
   }
 
   /* -------------------------------------------------- */
