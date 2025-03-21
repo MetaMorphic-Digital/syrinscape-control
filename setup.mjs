@@ -101,6 +101,9 @@ Hooks.on("globalAmbientVolumeChanged", (volume) => {
 // Prevent creating ambient sounds from the Syrinscape Browser
 Hooks.on("dropCanvasData", hooks.dropCanvasData);
 
+// Create syrinscape macros on hotbar drops.
+Hooks.on("hotbarDrop", hooks.hotbarDrop);
+
 /**
  * App Rendering Hooks
  */
