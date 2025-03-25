@@ -4,7 +4,7 @@ import { flagScope, moduleId, soundTypes } from "./constants.mjs";
  * A hook event that fires when some useful data is dropped onto the Canvas.
  * @event dropCanvasData
  * @category Canvas
- * @param {import("../foundry/client/canvas/board.mjs").default} canvas The Canvas
+ * @param {import("@client/canvas/board.mjs").default} canvas The Canvas
  * @param {object} data   The data that has been dropped onto the Canvas
  */
 export function dropCanvasData(canvas, data) {
@@ -108,7 +108,7 @@ export function renderAmbientSoundConfig(app, html, context, options) {
 
 /* -------------------------------------------------- */
 
-/** @import PlaylistDirectory from "../foundry/client/applications/sidebar/tabs/playlist-directory.mjs" */
+/** @import PlaylistDirectory from "@client/applications/sidebar/tabs/playlist-directory.mjs" */
 
 /**
  * Add a button for GMs to open the Syrinscape browser.
