@@ -373,7 +373,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     const soundValues = fd.object.playlistSounds.filter(e => e);
     const sounds = soundValues.map(v => {
       const [entryId, name] = v.split("-");
-      return this._entryToPlaylistSound(name, entryId);
+      return this.#entryToPlaylistSound(name, entryId);
     });
     // async, no current need to await
     foundry.documents.Playlist.create({
@@ -504,7 +504,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     // With AmbientSound creation blocked, this is a fairly clean way to handle the playlist creation
     const dragData = {
       type: "PlaylistSound",
-      data: this._entryToPlaylistSound(entry.dataset.name, entryId),
+      data: this.#entryToPlaylistSound(entry.dataset.name, entryId),
     };
 
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
@@ -516,7 +516,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {string} entryId - The entry ID, in the format of `m:number` or `e:number`
    * @returns {import("@common/documents/_types.mjs").PlaylistSoundData}
    */
-  _entryToPlaylistSound(name, entryId) {
+  #entryToPlaylistSound(name, entryId) {
     const [typeAbbrev, soundId] = entryId.split(":");
     return {
       name,
