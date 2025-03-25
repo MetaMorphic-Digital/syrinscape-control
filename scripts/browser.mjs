@@ -158,7 +158,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * Tracks whether the results tab is drag and drop or checkboxes
    * @type {boolean}
    */
-  #isCurrentlyMakingAPlaylist = false;
+  #creatingPlaylist = false;
 
   /* -------------------------------------------------- */
 
@@ -209,7 +209,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
         break;
       case "results":
         await this.#preparePartResults(context, options);
-        context.makingPlaylist = this.#isCurrentlyMakingAPlaylist;
+        context.makingPlaylist = this.#creatingPlaylist;
         break;
     }
 
@@ -341,9 +341,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {HTMLElement} target    The element that defined the [data-action].
    */
   static async #createPlaylist(event, target) {
-    this.#isCurrentlyMakingAPlaylist = true;
-    // async, no current need to await
-    this.render({ parts: ["results"] });
+    this.#creatingPlaylist = true;
+    await this.render({ parts: ["results"] });
   }
 
   /* -------------------------------------------------- */
@@ -355,9 +354,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {HTMLElement} target    The element that defined the [data-action].
    */
   static async #cancelPlaylistCreation(event, target) {
-    this.#isCurrentlyMakingAPlaylist = false;
-    // async, no current need to await
-    this.render({ parts: ["results"] });
+    this.#creatingPlaylist = false;
+    await this.render({ parts: ["results"] });
   }
 
   /* -------------------------------------------------- */
@@ -375,16 +373,14 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       const [entryId, name] = v.split("-");
       return this.#entryToPlaylistSound(name, entryId);
     });
-    // async, no current need to await
-    foundry.documents.Playlist.create({
+    await foundry.documents.Playlist.create({
       sounds,
       name: "New Syrinscape Playlist",
       channel: "environment",
       mode: CONST.PLAYLIST_MODES.SIMULTANEOUS,
     });
-    this.#isCurrentlyMakingAPlaylist = false;
-    // async, no current need to await
-    this.render({ parts: ["results"] });
+    this.#creatingPlaylist = false;
+    await this.render({ parts: ["results"] });
   }
 
   /* -------------------------------------------------- */
