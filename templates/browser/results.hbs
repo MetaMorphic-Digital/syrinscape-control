@@ -19,10 +19,12 @@
     </button>
     {{/unless}}
   </div>
-  <ul class="entries">
-    {{#each results}}
-    {{> "modules/syrinscape-control/templates/browser/result.hbs"}}
-    {{/each}}
-  </ul>
-  {{/if}}
+  <section class="results scrollable">
+    <ul class="entries">
+      {{#each results}}
+      {{> "modules/syrinscape-control/templates/browser/result.hbs"}}
+      {{/each}}
+    </ul>
+    {{/if}}
+  </section>
 </section>

@@ -11,6 +11,9 @@
       "HINTS": {
         "results": {
           "none": "No results found."
+        },
+        "playlist": {
+          "new": "New Syrinscape Playlist"
         }
       },
       "TABS": {

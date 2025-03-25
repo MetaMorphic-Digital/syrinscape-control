@@ -52,7 +52,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       template: "modules/syrinscape-control/templates/browser/results.hbs",
       templates: ["modules/syrinscape-control/templates/browser/result.hbs"],
       classes: ["scrollable"],
-      scrollable: [""],
+      scrollable: [".results.scrollable"],
     },
   };
 
@@ -367,6 +367,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {HTMLElement} target    The element that defined the [data-action].
    */
   static async #confirmPlaylistCreation(event, target) {
+    target.disabled = true;
     const fd = new foundry.applications.ux.FormDataExtended(this.form);
     const soundValues = fd.object.playlistSounds.filter(e => e);
     const sounds = soundValues.map(v => {
@@ -375,7 +376,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     });
     await foundry.documents.Playlist.create({
       sounds,
-      name: "New Syrinscape Playlist",
+      name: game.i18n.localize("SYRINSCAPE.BROWSER.HINTS.playlist.new"),
       channel: "environment",
       mode: CONST.PLAYLIST_MODES.SIMULTANEOUS,
     });
@@ -506,10 +507,12 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Maps an entry's data to the create data for a PlaylistSound
-   * @param {string} name    - The name of the sound
-   * @param {string} entryId - The entry ID, in the format of `m:number` or `e:number`
+   * @param {string} name       The name of the sound.
+   * @param {string} entryId    The entry ID, in the format of `m:number` or `e:number`.
    * @returns {import("@common/documents/_types.mjs").PlaylistSoundData}
    */
   #entryToPlaylistSound(name, entryId) {

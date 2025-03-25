@@ -38,6 +38,9 @@
   }
 
   [data-application-part=results] {
+    display: flex;
+    flex-direction: column;
+
     .process-results {
       gap: 5px;
       margin-bottom: 8px;
