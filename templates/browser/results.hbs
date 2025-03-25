@@ -2,10 +2,29 @@
   {{#if (eq results.length 0)}}
   <p>{{localize "SYRINSCAPE.BROWSER.HINTS.results.none"}}</p>
   {{else}}
-  <ul class="entries">
-    {{#each results}}
-    {{> "modules/syrinscape-control/templates/browser/result.hbs"}}
-    {{/each}}
-  </ul>
-  {{/if}}
+  <div class="flexrow process-results">
+    {{#unless makingPlaylist}}
+    <button type="button" data-action="createPlaylist">
+      <i class="fa-solid fa-music"></i>
+      {{localize "DOCUMENT.Create" type=(localize "DOCUMENT.Playlist")}}
+    </button>
+    {{else}}
+    <button type="button" data-action="cancelPlaylist">
+      <i class="fa-solid fa-xmark"></i>
+      {{localize "Cancel" }}
+    </button>
+    <button type="button" data-action="confirmPlaylist">
+      <i class="fa-solid fa-check"></i>
+      {{localize "Confirm"}}
+    </button>
+    {{/unless}}
+  </div>
+  <section class="results scrollable">
+    <ul class="entries">
+      {{#each results}}
+      {{> "modules/syrinscape-control/templates/browser/result.hbs"}}
+      {{/each}}
+    </ul>
+    {{/if}}
+  </section>
 </section>

@@ -1,4 +1,5 @@
 import { moduleId } from "./constants.mjs";
+import SyrinscapeFilterModel from "./browser-filter-model.mjs";
 
 const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
@@ -21,6 +22,9 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     actions: {
       burger: SyrinscapeBrowser.#onClickBurger,
       play: SyrinscapeBrowser.#onClickPlay,
+      createPlaylist: SyrinscapeBrowser.#createPlaylist,
+      cancelPlaylist: SyrinscapeBrowser.#cancelPlaylistCreation,
+      confirmPlaylist: SyrinscapeBrowser.#confirmPlaylistCreation,
     },
     form: {
       handler: foundry.utils.debounce(SyrinscapeBrowser.#onChangeFilters, 200),
@@ -48,7 +52,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       template: "modules/syrinscape-control/templates/browser/results.hbs",
       templates: ["modules/syrinscape-control/templates/browser/result.hbs"],
       classes: ["scrollable"],
-      scrollable: [""],
+      scrollable: [".results.scrollable"],
     },
   };
 
@@ -146,7 +150,15 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * The internal model for holding onto the filter configuration.
    * @type {SyrinscapeFilterModel}
    */
-  #filterModel = new syrinscapeControl.data.SyrinscapeFilterModel({}, { application: this });
+  #filterModel = new SyrinscapeFilterModel({}, { application: this });
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Tracks whether the results tab is drag and drop or checkboxes
+   * @type {boolean}
+   */
+  #creatingPlaylist = false;
 
   /* -------------------------------------------------- */
 
@@ -197,6 +209,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
         break;
       case "results":
         await this.#preparePartResults(context, options);
+        context.makingPlaylist = this.#creatingPlaylist;
         break;
     }
 
@@ -276,9 +289,11 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @this {SyrinscapeBrowser}
    * @param {Event} event             Triggering change event.
    * @param {HTMLFormElement} form    The element of this application.
-   * @param {import("../foundry/client/applications/ux/form-data-extended.mjs").default} formData   The form data.
+   * @param {import("@client/applications/ux/form-data-extended.mjs").default} formData   The form data.
    */
   static #onChangeFilters(event, form, formData) {
+    // Don't refresh & resubmit if this is from the checkboxes to create a playlist
+    if (event.target.name === "playlistSounds") return;
     this.#filterModel.updateSource(formData.object);
     this.render({ parts: ["results"] });
   }
@@ -315,6 +330,58 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     } else {
       syrinscapeControl.utils.playElement(id);
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Re-renders
+   * @this {SyrinscapeBrowser}
+   * @param {PointerEvent} event    Initiating click event.
+   * @param {HTMLElement} target    The element that defined the [data-action].
+   */
+  static async #createPlaylist(event, target) {
+    this.#creatingPlaylist = true;
+    await this.render({ parts: ["results"] });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Re-renders
+   * @this {SyrinscapeBrowser}
+   * @param {PointerEvent} event    Initiating click event.
+   * @param {HTMLElement} target    The element that defined the [data-action].
+   */
+  static async #cancelPlaylistCreation(event, target) {
+    this.#creatingPlaylist = false;
+    await this.render({ parts: ["results"] });
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Re-renders
+   * @this {SyrinscapeBrowser}
+   * @param {PointerEvent} event    Initiating click event.
+   * @param {HTMLElement} target    The element that defined the [data-action].
+   */
+  static async #confirmPlaylistCreation(event, target) {
+    target.disabled = true;
+    const fd = new foundry.applications.ux.FormDataExtended(this.form);
+    const soundValues = fd.object.playlistSounds.filter(e => e);
+    const sounds = soundValues.map(v => {
+      const [entryId, name] = v.split("-");
+      return this.#entryToPlaylistSound(name, entryId);
+    });
+    await foundry.documents.Playlist.create({
+      sounds,
+      name: game.i18n.localize("SYRINSCAPE.BROWSER.HINTS.playlist.new"),
+      channel: "environment",
+      mode: CONST.PLAYLIST_MODES.SIMULTANEOUS,
+    });
+    this.#creatingPlaylist = false;
+    await this.render({ parts: ["results"] });
   }
 
   /* -------------------------------------------------- */
@@ -430,22 +497,34 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   static #dragStart(event) {
     const entry = event.target.closest("[data-id]");
     const entryId = entry.dataset.id;
-    const [typeAbbrev, soundId] = entryId.split(":");
 
     // With AmbientSound creation blocked, this is a fairly clean way to handle the playlist creation
     const dragData = {
       type: "PlaylistSound",
-      data: {
-        name: entry.dataset.name,
-        flags: {
-          [moduleId]: {
-            soundType: typeAbbrev === "e" ? "element" : "mood",
-            soundId,
-          },
-        },
-      },
+      data: this.#entryToPlaylistSound(entry.dataset.name, entryId),
     };
 
     event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Maps an entry's data to the create data for a PlaylistSound
+   * @param {string} name       The name of the sound.
+   * @param {string} entryId    The entry ID, in the format of `m:number` or `e:number`.
+   * @returns {import("@common/documents/_types.mjs").PlaylistSoundData}
+   */
+  #entryToPlaylistSound(name, entryId) {
+    const [typeAbbrev, soundId] = entryId.split(":");
+    return {
+      name,
+      flags: {
+        [moduleId]: {
+          soundType: typeAbbrev === "e" ? "element" : "mood",
+          soundId,
+        },
+      },
+    };
   }
 }

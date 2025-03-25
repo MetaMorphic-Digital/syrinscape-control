@@ -1,5 +1,9 @@
 <li class="entry" data-id="{{id}}" data-name="{{name}}">
+  {{#unless @root.makingPlaylist}}
   <a draggable="" class="draggable"> <i class="icon fa-solid fa-grip-lines"></i> </a>
+  {{else}}
+  <input type="checkbox" value="{{id}}-{{name}}" name="playlistSounds">
+  {{/unless}}
   <h4 class="title">
     <span class="name">{{name}}</span>
     <span class="soundset">{{soundset}}</span>
