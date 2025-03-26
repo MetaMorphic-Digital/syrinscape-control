@@ -2,6 +2,7 @@
   "SYRINSCAPE": {
     "NAME": "Syrinscape",
     "BROWSER": {
+      "StopAll": "Stop All",
       "CONTEXTMENU": {
         "play": "Play",
         "stop": "Stop Playback",
