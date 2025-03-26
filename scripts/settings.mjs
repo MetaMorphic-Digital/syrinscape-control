@@ -20,9 +20,9 @@ export default class SyrinscapeSettingsHandler {
 
       sessionId: {
         name: "SYRINSCAPE.SETTINGS.SessionId.name",
-        type: new StringField({ blank: false }),
+        type: new StringField(),
         scope: "world",
-        config: true,
+        config: false,
         onChange: (value) => syrinscape.config.sessionid = value,
       },
 
