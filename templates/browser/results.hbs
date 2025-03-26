@@ -3,6 +3,10 @@
   <p>{{localize "SYRINSCAPE.BROWSER.HINTS.results.none"}}</p>
   {{else}}
   <div class="flexrow process-results">
+    <button type="button" data-action="stopSounds">
+      <i class="fa-solid fa-stop"></i>
+      {{localize "SYRINSCAPE.BROWSER.StopAll"}}
+    </button>
     {{#unless makingPlaylist}}
     <button type="button" data-action="createPlaylist">
       <i class="fa-solid fa-music"></i>

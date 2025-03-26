@@ -175,18 +175,20 @@ export async function retrieveElements(uuid) {
 
 /**
  * Get all moods currently playing.
- * @returns {Promise<object[]>}   A promise that resolves to an array of objects,
- *                                each with the mood id and human-readable label.
+ * @param {string} [modelName]    Model name to filter by, e.g. "SFXElement" or "Mood"
+ * @returns {Promise<Array<{id: number; label: string; isMood: boolean}>>}   A promise that resolves to an array of objects,
+ *                                each with the id and human-readable label.
  */
-export async function currentlyPlayingMoods() {
+export async function currentlyPlaying(modelName) {
   const url = "https://syrinscape.com/search/?playing=Playing Now";
   const response = await fetch(url, syrinscapeControl.sound.requestOptions);
   const json = await response.json();
 
   return json.results.filter(result => {
-    return result.playing_now && (result.model_name === "Mood");
+    if (modelName && (result.model_name !== modelName)) return false;
+    else return result.playing_now;
   }).map(result => {
-    return { id: result.pk, label: result.title };
+    return { id: result.pk, label: result.title, isMood: result.model_name === "Mood" };
   });
 }
 
