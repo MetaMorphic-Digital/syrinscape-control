@@ -320,6 +320,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
+   * Play a sound.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
@@ -337,7 +338,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Stop all sounds being played directly from the
+   * Stop all sounds being played directly from the browser.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
@@ -345,23 +346,20 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   static async #stopAllSounds(event, target) {
     /** @type {import("@client/documents/playlist-sound.mjs").default[]} */
     const syrinscapePlaylistSounds = ui.playlists._playing.sounds.filter(s => s.getFlag(moduleId, "soundId"));
+    const ids = new Set(syrinscapePlaylistSounds.map(s => Number(s.getFlag(moduleId, "soundId"))));
 
     const candidateSounds = await currentlyPlaying();
-
     for (const sound of candidateSounds) {
-      // Using == because Syrinscape is inconsistent about string vs. number IDs
-      if (syrinscapePlaylistSounds.some(ps => sound.id == ps.getFlag(moduleId, "soundId"))) continue;
-      else {
-        if (sound.isMood) stopMood(sound.id);
-        else stopElement(sound.id);
-      }
+      if (ids.has(Number(sound.id))) continue;
+      else if (sound.isMood) stopMood(sound.id);
+      else stopElement(sound.id);
     }
   }
 
   /* -------------------------------------------------- */
 
   /**
-   * Switches results display to checkboxes to create playlist
+   * Switches results display to checkboxes to create playlist.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
@@ -374,7 +372,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Returns controls to drag and drop mode
+   * Returns controls to drag and drop mode.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
@@ -387,7 +385,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Creates a playlist from the selected mood or one shot elements
+   * Creates a playlist from the selected mood or one shot elements.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
@@ -404,7 +402,9 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       sounds,
       name: game.i18n.localize("SYRINSCAPE.BROWSER.HINTS.playlist.new"),
       channel: "environment",
-      mode: this.tabGroups.primary === "moods" ? CONST.PLAYLIST_MODES.SIMULTANEOUS : CONST.PLAYLIST_MODES.DISABLED,
+      mode: (this.tabGroups.primary === "moods")
+        ? CONST.PLAYLIST_MODES.SIMULTANEOUS
+        : CONST.PLAYLIST_MODES.DISABLED,
     });
     this.#creatingPlaylist = false;
     await this.render({ parts: ["results"] });
