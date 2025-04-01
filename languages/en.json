@@ -22,10 +22,15 @@
         "oneshots": "One-Shots"
       },
       "WARNING": {
-        "cached": "No cached data was able to be provided for the Syrinscape Browser. Please ensure you have a local CSV or are able to fetch it."
+        "cached": "No cached data was able to be provided for the Syrinscape Browser."
       },
       "WINDOW": {
         "title": "Syrinscape Browser"
+      },
+      "REFRESHDATA": {
+        "label": "Refresh Listing",
+        "title": "Syrinscape Bulk Data Refresh",
+        "content": "Are you sure you want to refresh? Syrinscape officially suggests only refreshing once a week."
       }
     },
     "FILTERS": {
@@ -70,6 +75,10 @@
     },
     "Errors": {
       "Auth": "Syrinscape Controller: No Authentication Token Detected"
+    },
+    "BulkDataRequest": {
+      "Progress": "Downloading bulk data from Syrinscape...",
+      "Success": "Successfully updated Syrinscape data"
     }
   }
 }

@@ -25,6 +25,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     actions: {
       burger: SyrinscapeBrowser.#onClickBurger,
       play: SyrinscapeBrowser.#onClickPlay,
+      bulkDataRefresh: SyrinscapeBrowser.#bulkDataRefresh,
       stopSounds: SyrinscapeBrowser.#stopAllSounds,
       createPlaylist: SyrinscapeBrowser.#createPlaylist,
       cancelPlaylist: SyrinscapeBrowser.#cancelPlaylistCreation,
@@ -335,6 +336,23 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     } else {
       syrinscapeControl.utils.playElement(id);
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Open a dialog to refresh the available sounds
+   * @this {SyrinscapeBrowser}
+   * @param {PointerEvent} event    Initiating click event.
+   * @param {HTMLElement} target    The element that defined the [data-action].
+   */
+  static async #bulkDataRefresh(event, target) {
+    const refresh = await foundry.applications.api.Dialog.confirm({
+      window: { title: "SYRINSCAPE.BROWSER.REFRESHDATA.title" },
+      content: game.i18n.localize("SYRINSCAPE.BROWSER.REFRESHDATA.content"),
+    });
+
+    if (refresh) syrinscapeControl.storage.initializeSoundData(true);
   }
 
   /* -------------------------------------------------- */

@@ -30,6 +30,7 @@ export default class SyrinscapeSettingsHandler {
         type: new TypedObjectField(new ObjectField()),
         scope: "world",
         config: false,
+        onChange: () => ui.syrinscapeBrowser.render(),
       },
 
       address: {

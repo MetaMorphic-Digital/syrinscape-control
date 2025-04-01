@@ -49,7 +49,7 @@ export default class SoundManager {
    * @returns {Promise<Record<string, string | null>[]>}
    */
   async bulkData() {
-
+    const download = ui.notifications.info("SYRINSCAPE.BulkDataRequest.Progress", { localize: true, progress: true });
     console.warn("Requesting bulk data after syrinscape config initialization...");
     await syrinscape.config.init();
     console.warn("Syrinscape config initialized, resuming bulk data request");
@@ -61,12 +61,19 @@ export default class SoundManager {
     if (!requestOptions) throw new Error("Syrinscape Controller | You need to successfully initialize syrinscape.config first.");
 
     const url = "https://syrinscape.com/account/remote-control-links/";
+
+    ui.notifications.update(download, { pct: 0.1 });
+
     const response = await fetch(url, requestOptions);
+
+    ui.notifications.update(download, { pct: 0.9 });
 
     if (!response.ok) {
       console.error(response, await response.json());
       throw new Error("Syrinscape Controller | Response Not OK!", { cause: response });
     }
+
+    ui.notifications.update(download, { pct: 1 });
 
     return response.json();
   }

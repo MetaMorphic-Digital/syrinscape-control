@@ -1,5 +1,7 @@
 import { moduleId } from "./constants.mjs";
 
+/** @import { SyrinCollection } from "./api.mjs" */
+
 export default class SyrinscapeStorage {
   /**
    * Has sound data been initialized?
@@ -55,6 +57,9 @@ export default class SyrinscapeStorage {
           return acc;
         }, {});
         await game.settings.set(moduleId, SETTING, data);
+
+        ui.notifications.success("SYRINSCAPE.BulkDataRequest.Success", { localize: true });
+
         return this.#initialized = true;
       }
     } else {

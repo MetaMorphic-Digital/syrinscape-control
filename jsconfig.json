@@ -10,7 +10,8 @@
   "exclude": ["node_modules", "**/node_modules/*"],
   "include": [
     "setup.mjs",
-    "foundry/client/client.mjs"
+    "foundry/client/client.mjs",
+    "foundry/client/global.d.mts"
   ],
   "typeAcquisition": {}
 }
