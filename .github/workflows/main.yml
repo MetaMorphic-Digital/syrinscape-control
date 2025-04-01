@@ -51,7 +51,7 @@ jobs:
 
       # Create zip file
       - name: Create ZIP archive
-        run: zip -r ./module.zip module.mjs module.json module.css languages/ templates/
+        run: zip -r ./module.zip module.mjs module.json module.css languages/ templates/ lib/
 
       # Create a release for this specific version.
       - name: Update Release with Files
