@@ -2,6 +2,8 @@ import { moduleId } from "./constants.mjs";
 import SyrinscapeFilterModel from "./browser-filter-model.mjs";
 import { currentlyPlaying, stopElement, stopMood } from "./api.mjs";
 
+/** @import { SyrinCollection } from "./api.mjs" */
+
 const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
 export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
@@ -138,7 +140,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * The cached data from a setting or csv.
+   * The cached data from a setting or bulk data import.
    * @type {SyrinCollection|null}
    */
   #cachedCollection = null;
