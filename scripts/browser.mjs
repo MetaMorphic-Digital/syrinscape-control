@@ -349,7 +349,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   static async #bulkDataRefresh(event, target) {
     const refresh = await foundry.applications.api.Dialog.confirm({
       window: { title: "SYRINSCAPE.BROWSER.REFRESHDATA.title" },
-      content: game.i18n.localize("SYRINSCAPE.BROWSER.REFRESHDATA.content"),
+      content: `<p>${game.i18n.localize("SYRINSCAPE.BROWSER.REFRESHDATA.content")}</p>`,
+      position: { width: 400 },
     });
 
     if (refresh) syrinscapeControl.storage.initializeSoundData(true);
