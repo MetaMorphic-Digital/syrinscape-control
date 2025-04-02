@@ -1,5 +1,8 @@
 const { SetField, StringField } = foundry.data.fields;
 
+/**
+ * A custom data model to store filters being used in the Browser.
+ */
 export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
   constructor(data = {}, { application, ...options } = {}) {
     super(data, options);
@@ -74,18 +77,34 @@ export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Cached options: soundset.
+   * @type {Set<string>}
+   */
   #soundset = new Set();
 
   /* -------------------------------------------------- */
 
+  /**
+   * Cached options: status.
+   * @type {Set<string>}
+   */
   #status = new Set();
 
   /* -------------------------------------------------- */
 
+  /**
+   * Cached options: subcategory.
+   * @type {Set<string>}
+   */
   #subcategory = new Set();
 
   /* -------------------------------------------------- */
 
+  /**
+   * Cached options: subtype.
+   * @type {Set<string>}
+   */
   #subtype = new Set();
 
   /* -------------------------------------------------- */

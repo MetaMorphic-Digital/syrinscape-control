@@ -11,7 +11,7 @@
   "include": [
     "setup.mjs",
     "foundry/client/client.mjs",
-    "foundry/client/global.d.mts"
+    "global.d.ts"
   ],
   "typeAcquisition": {}
 }

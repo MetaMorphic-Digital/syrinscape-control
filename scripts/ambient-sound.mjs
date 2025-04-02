@@ -34,8 +34,9 @@ export default function registerSyrinscapeAmbientSound() {
       const url = this.syrinscapeURL;
       if (url) this.path = url;
     }
-
   }
+
+  /* -------------------------------------------------- */
 
   class SyrinscapeAmbientSound extends CONFIG.AmbientSound.objectClass {
     /** @inheritdoc */
@@ -50,6 +51,8 @@ export default function registerSyrinscapeAmbientSound() {
       return super._createSound();
     }
   }
+
+  /* -------------------------------------------------- */
 
   CONFIG.AmbientSound.documentClass = SyrinscapeAmbientSoundDocument;
   CONFIG.AmbientSound.objectClass = SyrinscapeAmbientSound;

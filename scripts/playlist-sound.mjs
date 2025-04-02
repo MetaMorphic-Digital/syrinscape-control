@@ -1,14 +1,23 @@
 import SyrinscapeSound from "./sound-extension.mjs";
 import { moduleId } from "./constants.mjs";
 
+/**
+ * Extend the current playlistsound document class.
+ */
 export default function registerSyrinscapePlaylistSound() {
   class SyrinscapePlaylistSound extends CONFIG.PlaylistSound.documentClass {
+    /**
+     * The syrinscape url.
+     * @type {string|null}
+     */
     get syrinscapeURL() {
       const soundType = this.getFlag(moduleId, "soundType");
       const soundId = this.getFlag(moduleId, "soundId");
       if (soundType && soundId) return `${soundType}s/${soundId}`;
       else return null;
     }
+
+    /* -------------------------------------------------- */
 
     /** @inheritdoc */
     async _preUpdate(changed, options, user) {
@@ -20,6 +29,8 @@ export default function registerSyrinscapePlaylistSound() {
         if (changed.playing === false) changed.pausedTime = null;
       }
     }
+
+    /* -------------------------------------------------- */
 
     /** @inheritdoc */
     _createSound() {
@@ -40,6 +51,8 @@ export default function registerSyrinscapePlaylistSound() {
       return super._createSound();
     }
   }
+
+  /* -------------------------------------------------- */
 
   CONFIG.PlaylistSound.documentClass = SyrinscapePlaylistSound;
 }

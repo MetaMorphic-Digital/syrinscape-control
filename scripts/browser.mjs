@@ -168,8 +168,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
-  _onRender(context, options) {
-    super._onRender(context, options);
+  async _onRender(context, options) {
+    await super._onRender(context, options);
     this._createContextMenu(this.#getSyrinscapeContextOptions, ".entry", {
       container: this.element,
       fixed: true,

@@ -11,6 +11,8 @@ export function dropCanvasData(canvas, data) {
   if (foundry.utils.getProperty(data, "data.flags.syrinscape-control.soundId")) return false;
 }
 
+/* -------------------------------------------------- */
+
 /**
  * Add Syrinscape-specific inputs to the PlaylistSoundConfig app
  * @param {InstanceType<foundry["applications"]["sheets"]["PlaylistSoundConfig"]>} app
@@ -163,6 +165,8 @@ export function hotbarDrop(hotbar, drop, slot) {
     return false;
   }
 }
+
+/* -------------------------------------------------- */
 
 /**
  * Create and assign a Syrinscape hotbar macro.

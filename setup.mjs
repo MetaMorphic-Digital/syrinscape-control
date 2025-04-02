@@ -26,6 +26,8 @@ globalThis.syrinscapeControl = {
   utils: utils,
 };
 
+/* -------------------------------------------------- */
+
 CONFIG.ui.syrinscapeBrowser = SyrinscapeBrowser;
 
 /* -------------------------------------------------- */
@@ -94,20 +96,32 @@ Hooks.on("getSceneControlButtons", (controls) => {
   }
 });
 
+/* -------------------------------------------------- */
+
 Hooks.on("globalAmbientVolumeChanged", (volume) => {
   syrinscape.player.audioSystem.setLocalVolume(volume);
 });
 
+/* -------------------------------------------------- */
+
 // Prevent creating ambient sounds from the Syrinscape Browser
 Hooks.on("dropCanvasData", hooks.dropCanvasData);
+
+/* -------------------------------------------------- */
 
 // Create syrinscape macros on hotbar drops.
 Hooks.on("hotbarDrop", hooks.hotbarDrop);
 
-/**
- * App Rendering Hooks
- */
+/* -------------------------------------------------- */
+/*   App rendering hooks                              */
+/* -------------------------------------------------- */
 
 Hooks.on("renderPlaylistSoundConfig", hooks.renderPlaylistSoundConfig);
+
+/* -------------------------------------------------- */
+
 // Hooks.on("renderAmbientSoundConfig", hooks.renderAmbientSoundConfig);
+
+/* -------------------------------------------------- */
+
 Hooks.on("renderPlaylistDirectory", hooks.renderPlaylistDirectory);

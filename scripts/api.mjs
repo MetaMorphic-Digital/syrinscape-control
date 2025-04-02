@@ -80,6 +80,11 @@ export async function playElement(id) {
 
 /* -------------------------------------------------- */
 
+/**
+ * Stop an element.
+ * @param {number|string} id      The id of the element to stop.
+ * @returns {Promise<boolean>}    Whether the request was successful.
+ */
 export async function stopElement(id) {
   id = (typeof id === "string") ? id.replace("e:", "").trim() : String(id);
   try {
@@ -111,6 +116,11 @@ export async function playMood(id) {
 
 /* -------------------------------------------------- */
 
+/**
+ * Stop a mood.
+ * @param {number|string} id      The id of the mood to stop.
+ * @returns {Promise<boolean>}    Whether the request was successful.
+ */
 export async function stopMood(id) {
   id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
   try {
@@ -194,6 +204,9 @@ export async function currentlyPlaying(modelName) {
 
 /* -------------------------------------------------- */
 
+/**
+ * A subclass of `Collection` to handle retrieval and storage of sound data.
+ */
 export class SyrinCollection extends foundry.utils.Collection {
   /** @inheritdoc */
   set(k, v) {
@@ -283,7 +296,17 @@ export class SyrinCollection extends foundry.utils.Collection {
 
   /* -------------------------------------------------- */
 
+  /**
+   * Stored moods.
+   * @type {object[]}
+   */
   #moods = [];
 
+  /* -------------------------------------------------- */
+
+  /**
+   * Stored elements.
+   * @type {object[]}
+   */
   #elements = [];
 }

@@ -13,6 +13,8 @@ export default class SyrinscapeSound extends foundry.audio.Sound {
     super(src, options);
   }
 
+  /* -------------------------------------------------- */
+
   /**
    * Syrinscape sounds use neither buffers nor elements to decide if they are loaded
    * @inheritdoc
@@ -21,10 +23,14 @@ export default class SyrinscapeSound extends foundry.audio.Sound {
     return this._state >= foundry.audio.Sound.STATES.LOADED;
   }
 
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   async _load() {
     // This function is an intentional no-op because Syrinscape already loads everything
   }
+
+  /* -------------------------------------------------- */
 
   /** @inheritdoc */
   async _play() {
@@ -32,11 +38,15 @@ export default class SyrinscapeSound extends foundry.audio.Sound {
     if (CONFIG.debug.audio) console.log(response);
   }
 
+  /* -------------------------------------------------- */
+
   /** @inheritdoc */
   async _pause() {
     const response = await syrinscapeControl.sound.fetchJson(this.src + "/stop/");
     if (CONFIG.debug.audio) console.log(response);
   }
+
+  /* -------------------------------------------------- */
 
   /** @inheritdoc */
   async _stop() {
