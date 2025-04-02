@@ -439,7 +439,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {Event} event   The scroll event.
    */
   static async #scrollResults(event) {
-    if (this.#renderThrottle || !event.target.matches("[data-application-part='results']")) return;
+    if (this.#renderThrottle || !event.target.matches(".results.scrollable")) return;
 
     const { scrollTop, scrollHeight, clientHeight } = event.target;
     if (scrollTop + clientHeight < scrollHeight - SyrinscapeBrowser.#BATCH_MARGIN) return;
