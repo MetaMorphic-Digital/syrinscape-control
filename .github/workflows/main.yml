@@ -31,7 +31,7 @@ jobs:
           version: ${{steps.get_version.outputs.version-without-v}}
           download: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.zip
           styles: "[\"module.css\"]"
-          esmodules: "[\"module.mjs\"]"
+          esmodules: "[\"module.mjs\", \"./lib/homePlayer.js\", \"./lib/integration.js\", \"./lib/player.js\"]"
 
       # Set up Node
       - name: Use Node.js ${{ matrix.node-version }}
