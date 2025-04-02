@@ -78,7 +78,7 @@
     },
     "BulkDataRequest": {
       "Progress": "Downloading bulk data from Syrinscape...",
-      "Success": "Successfully updated Syrinscape data"
+      "Success": "Successfully updated Syrinscape data."
     }
   }
 }
