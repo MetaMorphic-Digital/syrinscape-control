@@ -3,5 +3,9 @@
     {{#each filters}}
     {{formGroup field value=value options=options}}
     {{/each}}
+  <button type="button" data-action="bulkDataRefresh">
+    <i class="fa-solid fa-arrows-rotate"></i>
+    {{localize "SYRINSCAPE.BROWSER.REFRESHDATA.label"}}
+  </button>
   </fieldset>
 </section>

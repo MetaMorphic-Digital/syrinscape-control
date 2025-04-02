@@ -26,10 +26,11 @@ export default class SyrinscapeSettingsHandler {
         onChange: (value) => syrinscape.config.sessionid = value,
       },
 
-      csvData: {
+      bulkData: {
         type: new TypedObjectField(new ObjectField()),
         scope: "world",
         config: false,
+        onChange: () => ui.syrinscapeBrowser.render(),
       },
 
       address: {

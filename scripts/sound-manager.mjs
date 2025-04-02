@@ -6,7 +6,7 @@ import { moduleId } from "./constants.mjs";
 export default class SoundManager {
   /**
    * Builds out default request options for use with `fetch`.
-   * @type {object}
+   * @type {{method: string, headers: Headers, redirect: string}}
    */
   get requestOptions() {
     const myHeaders = new Headers();
@@ -38,6 +38,43 @@ export default class SoundManager {
       console.error(response, await response.json());
       throw new Error("Syrinscape Controller | Response Not OK!", { cause: response });
     }
+
+    return response.json();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Fetches all available sound data from Syrinscape
+   * @returns {Promise<Record<string, string | null>[]>}
+   */
+  async bulkData() {
+    const download = ui.notifications.info("SYRINSCAPE.BulkDataRequest.Progress", { localize: true, progress: true });
+    console.warn("Requesting bulk data after syrinscape config initialization...");
+    await syrinscape.config.init();
+    console.warn("Syrinscape config initialized, resuming bulk data request");
+
+    const requestOptions = this.requestOptions;
+
+    requestOptions.mode = "cors";
+
+    if (!requestOptions) throw new Error("Syrinscape Controller | You need to successfully initialize syrinscape.config first.");
+
+    const url = "https://syrinscape.com/account/remote-control-links/";
+
+    ui.notifications.update(download, { pct: 0.1 });
+
+    const response = await fetch(url, requestOptions);
+
+    ui.notifications.update(download, { pct: 0.9 });
+
+    if (!response.ok) {
+      ui.notifications.error("SYRINSCAPE.BROWSER.REFRESHDATA.error", { localize: true });
+      console.error(response, await response.json());
+      throw new Error("Syrinscape Controller | Response Not OK!", { cause: response });
+    }
+
+    ui.notifications.update(download, { pct: 1 });
 
     return response.json();
   }
