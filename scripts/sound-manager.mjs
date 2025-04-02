@@ -69,6 +69,7 @@ export default class SoundManager {
     ui.notifications.update(download, { pct: 0.9 });
 
     if (!response.ok) {
+      ui.notifications.error("SYRINSCAPE.BROWSER.REFRESHDATA.error", { localize: true });
       console.error(response, await response.json());
       throw new Error("Syrinscape Controller | Response Not OK!", { cause: response });
     }

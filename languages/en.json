@@ -30,7 +30,8 @@
       "REFRESHDATA": {
         "label": "Refresh Listing",
         "title": "Syrinscape Bulk Data Refresh",
-        "content": "Are you sure you want to refresh? Syrinscape officially suggests only refreshing once a week."
+        "content": "Are you sure you want to refresh? Syrinscape officially suggests only refreshing once a week.",
+        "error": "There was an error initializing the Syrinscape data."
       }
     },
     "FILTERS": {
