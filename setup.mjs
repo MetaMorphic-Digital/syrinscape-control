@@ -1,6 +1,5 @@
 import SyrinscapeBrowser from "./scripts/browser.mjs";
 import SyrinscapeFilterModel from "./scripts/browser-filter-model.mjs";
-import SyrinscapeViewer from "./scripts/viewer.mjs";
 import SyrinscapeSettingsHandler from "./scripts/settings.mjs";
 import SyrinscapeStorage from "./scripts/storage.mjs";
 import SoundManager from "./scripts/sound-manager.mjs";
@@ -12,15 +11,12 @@ import * as utils from "./scripts/api.mjs";
 globalThis.syrinscapeControl = {
   applications: {
     SyrinscapeBrowser,
-    SyrinscapeViewer,
   },
   data: {
     SyrinscapeFilterModel,
     SyrinscapeStorage,
   },
   sound: new SoundManager(),
-  /** @type {SyrinscapeViewer} */
-  viewer: null,
   /** @type {SyrinscapeStorage} */
   storage: null,
   utils: utils,
@@ -89,8 +85,6 @@ Hooks.on("getSceneControlButtons", (controls) => {
       button: true,
       onChange: (event, toggled) => {
         syrinscape.integration.launchAsGameMaster();
-        // syrinscapeControl.viewer ??= SyrinscapeViewer.create();
-        // syrinscapeControl.viewer.render({ force: true });
       },
     };
   }

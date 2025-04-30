@@ -147,7 +147,7 @@ export function renderPlaylistDirectory(directory, element, context, options) {
  * Localize the browser filter data model.
  */
 export function localizeDataModels() {
-  Localization.localizeDataModel(syrinscapeControl.data.SyrinscapeFilterModel);
+  foundry.helpers.Localization.localizeDataModel(syrinscapeControl.data.SyrinscapeFilterModel);
 }
 
 /* -------------------------------------------------- */
