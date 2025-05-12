@@ -130,6 +130,10 @@ export default class SyrinscapeStorage {
    * @param {object} details    Sound data.
    */
   _addPlaying(type, details) {
+    if (!details.elementId) {
+      console.error(`No element ID for ${type}`, details);
+      return;
+    }
     this.#playing.set(details.elementId, details);
     switch (type) {
       case "sample":
@@ -139,6 +143,9 @@ export default class SyrinscapeStorage {
         this.#playingElements.add(details.elementId);
         break;
       case "mood":
+        // Only one mood at a time
+        this.#playing.delete(this.#playingMoods.first());
+        this.#playingMoods.clear();
         this.#playingMoods.add(details.elementId);
         break;
     }
@@ -208,7 +215,7 @@ Hooks.once("init", () => {
     switch (message) {
       case "send_full":
       case "send_partial":
-        syrinscapeControl.storage._addPlaying("mood", { ... params, elementId: params.mood_pk });
+        syrinscapeControl.storage._addPlaying("mood", { ...params, elementId: params.mood_pk });
         break;
       case "stop_all":
         syrinscapeControl.storage._removePlaying("mood", "ALL");

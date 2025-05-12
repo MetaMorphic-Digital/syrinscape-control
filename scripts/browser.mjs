@@ -4,9 +4,9 @@ import { currentlyPlaying, stopElement, stopMood } from "./api.mjs";
 
 /** @import { SyrinCollection } from "./api.mjs" */
 
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
+const { HandlebarsApplicationMixin, Application } = foundry.applications.api;
 
-export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Application) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     id: "syrinscape-browser",
@@ -25,6 +25,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     actions: {
       burger: SyrinscapeBrowser.#onClickBurger,
       play: SyrinscapeBrowser.#onClickPlay,
+      stop: SyrinscapeBrowser.#onClickStop,
       bulkDataRefresh: SyrinscapeBrowser.#bulkDataRefresh,
       stopSounds: SyrinscapeBrowser.#stopAllSounds,
       createPlaylist: SyrinscapeBrowser.#createPlaylist,
@@ -115,7 +116,10 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @returns {object[]}
    */
   #getNextBatch() {
-    return [...this.#batches.next().value ?? []];
+    return [...this.#batches.next().value ?? []].map(result => {
+      result.playing = syrinscapeControl.storage.isPlaying(result.id);
+      return result;
+    });
   }
 
   /* -------------------------------------------------- */
@@ -328,13 +332,29 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
    */
-  static #onClickPlay(event, target) {
+  static async #onClickPlay(event, target) {
     const id = target.closest(".entry").dataset.id;
     // TODO: the play button should change if the mood/element is currently playing
     if (this.tabGroups.primary === "moods") {
-      syrinscapeControl.utils.playMood(id);
+      await syrinscapeControl.utils.playMood(id);
     } else {
-      syrinscapeControl.utils.playElement(id);
+      await syrinscapeControl.utils.playElement(id);
+    }
+  }
+
+  /**
+   * Stop a sound
+   * @this {SyrinscapeBrowser}
+   * @param {PointerEvent} event    Initiating click event.
+   * @param {HTMLElement} target    The element that defined the [data-action].
+   */
+  static async #onClickStop(event, target) {
+    const id = target.closest(".entry").dataset.id;
+    // TODO: the play button should change if the mood/element is currently playing
+    if (this.tabGroups.primary === "moods") {
+      await syrinscapeControl.utils.stopMood(id);
+    } else {
+      await syrinscapeControl.utils.stopElement(id);
     }
   }
 
@@ -375,6 +395,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       else if (sound.isMood) stopMood(sound.id);
       else stopElement(sound.id);
     }
+    await this.render({ parts: ["results"] });
   }
 
   /* -------------------------------------------------- */
