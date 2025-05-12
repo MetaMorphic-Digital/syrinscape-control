@@ -130,10 +130,8 @@ export default class SyrinscapeStorage {
    * @param {object} details    Sound data.
    */
   _addPlaying(type, details) {
-    if (!details.elementId) {
-      console.error(`No element ID for ${type}`, details);
-      return;
-    }
+    // Partial updates may not include a primary element ID
+    if (!details.elementId) return;
     this.#playing.set(details.elementId, details);
     switch (type) {
       case "sample":
@@ -212,6 +210,7 @@ Hooks.once("init", () => {
 
   // Doing it for moods is different.
   syrinscape.player.socketSystem.onMessage.addListener(({ message, params }) => {
+    if (CONFIG.debug.audio) console.debug(message, params);
     switch (message) {
       case "send_full":
       case "send_partial":

@@ -34,23 +34,26 @@ export default class SyrinscapeSound extends foundry.audio.Sound {
 
   /** @inheritdoc */
   async _play() {
-    const response = await syrinscapeControl.sound.fetchJson(this.src + "/play/");
-    if (CONFIG.debug.audio) console.log(response);
+    const [type, id] = this.src.split("/");
+    if (type === "moods") syrinscapeControl.utils.playMood(id);
+    else syrinscapeControl.utils.playElement(id);
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   async _pause() {
-    const response = await syrinscapeControl.sound.fetchJson(this.src + "/stop/");
-    if (CONFIG.debug.audio) console.log(response);
+    const [type, id] = this.src.split("/");
+    if (type === "moods") syrinscapeControl.utils.stopMood(id);
+    else syrinscapeControl.utils.stopElement(id);
   }
 
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
   async _stop() {
-    const response = await syrinscapeControl.sound.fetchJson(this.src + "/stop/");
-    if (CONFIG.debug.audio) console.log(response);
+    const [type, id] = this.src.split("/");
+    if (type === "moods") syrinscapeControl.utils.stopMood(id);
+    else syrinscapeControl.utils.stopElement(id);
   }
 }
