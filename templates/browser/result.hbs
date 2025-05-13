@@ -10,10 +10,6 @@
   </h4>
   <div class="controls">
     <a data-action="burger"> <i class="fa-solid fa-ellipsis-vertical"></i> </a>
-    {{#if playing}}
-    <button type="button" data-action="stop" class="icon fa-solid fa-stop"></button>
-    {{else}}
-    <button type="button" data-action="play" class="icon fa-solid fa-volume-high"></button>
-    {{/if}}
+    <button type="button" data-action="toggle" class="icon fa-solid {{ifThen playing 'fa-stop' 'fa-volume-high'}}" id="syrinscape-element-{{numericId}}"></button>
   </div>
 </li>

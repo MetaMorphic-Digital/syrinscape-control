@@ -186,26 +186,44 @@ export default class SyrinscapeStorage {
     const id = (typeof elementId === "number") ? elementId : parseInt(elementId.split(":").at(-1));
     return this.#playing.has(id);
   }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Toggle icon on an element when it starts or stops playing.
+   * @param {number} id               The id of the element.
+   * @param {boolean} [state=true]    Whether the element is playing.
+   */
+  _togglePlayIcons(id, state = true) {
+    const element = document.getElementById(`syrinscape-element-${id}`);
+    if (!element) return;
+    element.classList.toggle("fa-volume-high", !state);
+    element.classList.toggle("fa-stop", state);
+  }
 }
 
 /* -------------------------------------------------- */
 
 Hooks.once("init", () => {
-  syrinscapeControl.storage = new SyrinscapeStorage();
-  syrinscapeControl.storage.initializeSoundData();
+  const stg = syrinscapeControl.storage = new SyrinscapeStorage();
+  stg.initializeSoundData();
 
   syrinscape.events.startSample.addListener(event => {
-    syrinscapeControl.storage._addPlaying("sample", event.detail);
+    stg._addPlaying("sample", event.detail);
+    stg._togglePlayIcons(event.detail.elementId);
   });
   syrinscape.events.stopSample.addListener(event => {
-    syrinscapeControl.storage._removePlaying("sample", event.detail);
+    stg._removePlaying("sample", event.detail);
+    stg._togglePlayIcons(event.detail.elementId, false);
   });
 
   syrinscape.events.startElement.addListener(event => {
-    syrinscapeControl.storage._addPlaying("element", event.detail);
+    stg._addPlaying("element", event.detail);
+    stg._togglePlayIcons(event.detail.elementId);
   });
   syrinscape.events.stopElement.addListener(event => {
-    syrinscapeControl.storage._removePlaying("element", event.detail);
+    stg._removePlaying("element", event.detail);
+    stg._togglePlayIcons(event.detail.elementId, false);
   });
 
   // Doing it for moods is different.
@@ -214,10 +232,10 @@ Hooks.once("init", () => {
     switch (message) {
       case "send_full":
       case "send_partial":
-        syrinscapeControl.storage._addPlaying("mood", { ...params, elementId: params.mood_pk });
+        stg._addPlaying("mood", { ...params, elementId: params.mood_pk });
         break;
       case "stop_all":
-        syrinscapeControl.storage._removePlaying("mood", "ALL");
+        stg._removePlaying("mood", "ALL");
     }
   });
 });

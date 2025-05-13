@@ -24,8 +24,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     },
     actions: {
       burger: SyrinscapeBrowser.#onClickBurger,
-      play: SyrinscapeBrowser.#onClickPlay,
-      stop: SyrinscapeBrowser.#onClickStop,
+      toggle: SyrinscapeBrowser.#onClickPlay,
       bulkDataRefresh: SyrinscapeBrowser.#bulkDataRefresh,
       stopSounds: SyrinscapeBrowser.#stopAllSounds,
       createPlaylist: SyrinscapeBrowser.#createPlaylist,
@@ -117,6 +116,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   #getNextBatch() {
     return [...this.#batches.next().value ?? []].map(result => {
+      result.numericId = Number(result.id.split(":").at(-1));
       result.playing = syrinscapeControl.storage.isPlaying(result.id);
       return result;
     });
@@ -327,34 +327,20 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Play a sound.
+   * Start or stop a sound.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
    */
   static async #onClickPlay(event, target) {
     const id = target.closest(".entry").dataset.id;
-    // TODO: the play button should change if the mood/element is currently playing
+    const isPlaying = syrinscapeControl.storage.isPlaying(id);
     if (this.tabGroups.primary === "moods") {
-      await syrinscapeControl.utils.playMood(id);
+      if (isPlaying) await syrinscapeControl.utils.stopMood(id);
+      else await syrinscapeControl.utils.playMood(id);
     } else {
-      await syrinscapeControl.utils.playElement(id);
-    }
-  }
-
-  /**
-   * Stop a sound
-   * @this {SyrinscapeBrowser}
-   * @param {PointerEvent} event    Initiating click event.
-   * @param {HTMLElement} target    The element that defined the [data-action].
-   */
-  static async #onClickStop(event, target) {
-    const id = target.closest(".entry").dataset.id;
-    // TODO: the play button should change if the mood/element is currently playing
-    if (this.tabGroups.primary === "moods") {
-      await syrinscapeControl.utils.stopMood(id);
-    } else {
-      await syrinscapeControl.utils.stopElement(id);
+      if (isPlaying) await syrinscapeControl.utils.stopElement(id);
+      else await syrinscapeControl.utils.playElement(id);
     }
   }
 
