@@ -25,6 +25,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     actions: {
       burger: SyrinscapeBrowser.#onClickBurger,
       toggle: SyrinscapeBrowser.#onClickPlay,
+      resetFilter: SyrinscapeBrowser.#resetFilter,
       bulkDataRefresh: SyrinscapeBrowser.#bulkDataRefresh,
       stopSounds: SyrinscapeBrowser.#stopAllSounds,
       createPlaylist: SyrinscapeBrowser.#createPlaylist,
@@ -282,7 +283,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /** @inheritdoc */
   changeTab(tab, group, { event, navElement, force = false, updatePosition = true } = {}) {
     super.changeTab(tab, group, { event, navElement, force, updatePosition });
-    this.#filterModel.resetFilter(),
+    // only one-shots have subtypes so this should never be preserved on tab switch
+    this.#filterModel.updateSource({ subtype: [] });
     this.render({
       tab,
       parts: ["filters", "results"],
@@ -342,6 +344,19 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       if (isPlaying) await syrinscapeControl.utils.stopElement(id);
       else await syrinscapeControl.utils.playElement(id);
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Resets the filter
+   * @this {SyrinscapeBrowser}
+   * @param {PointerEvent} event    Initiating click event.
+   * @param {HTMLElement} target    The element that defined the [data-action].
+   */
+  static async #resetFilter(event, target) {
+    this.#filterModel.resetFilter();
+    this.render();
   }
 
   /* -------------------------------------------------- */

@@ -35,6 +35,9 @@
       }
     },
     "FILTERS": {
+      "ACTIONS": {
+        "clear": "Clear Filters"
+      },
       "FIELDS": {
         "product": {
           "label": "Product or Pack"
