@@ -349,7 +349,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Resets the filter
+   * Resets the filter.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
