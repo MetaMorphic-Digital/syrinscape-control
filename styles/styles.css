@@ -104,4 +104,7 @@
       }
     }
   }
+
+  &:not(.create-playlist) .playlist-create { display: none; }
+  &.create-playlist .playlist-create-false { display: none; }
 }

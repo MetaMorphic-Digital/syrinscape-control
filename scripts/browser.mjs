@@ -396,7 +396,6 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       else if (sound.isMood) stopMood(sound.id);
       else stopElement(sound.id);
     }
-    await this.render({ parts: ["results"] });
   }
 
   /* -------------------------------------------------- */
@@ -409,7 +408,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   static async #createPlaylist(event, target) {
     this.#creatingPlaylist = true;
-    await this.render({ parts: ["results"] });
+    this.element.classList.add("create-playlist");
   }
 
   /* -------------------------------------------------- */
@@ -422,7 +421,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   static async #cancelPlaylistCreation(event, target) {
     this.#creatingPlaylist = false;
-    await this.render({ parts: ["results"] });
+    this.element.classList.remove("create-playlist");
   }
 
   /* -------------------------------------------------- */
@@ -450,7 +449,10 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
         : CONST.PLAYLIST_MODES.DISABLED,
     });
     this.#creatingPlaylist = false;
-    await this.render({ parts: ["results"] });
+    this.element.classList.remove("create-playlist");
+    this.element.querySelectorAll("input.playlist-create").forEach(box => {
+      box.checked = false;
+    });
   }
 
   /* -------------------------------------------------- */

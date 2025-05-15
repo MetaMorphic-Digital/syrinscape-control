@@ -34,7 +34,7 @@
         "css"
       ],
       "paths": [
-        "./styles/styles.css"
+        "./styles"
       ]
     }
   },

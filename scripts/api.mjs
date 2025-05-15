@@ -28,7 +28,6 @@
  */
 export async function stopAll() {
   const { ok } = await syrinscape.player.controlSystem.stopAll();
-  ui.syrinscapeBrowser.render({ parts: ["results"] });
   return ok;
 }
 
@@ -72,7 +71,6 @@ export async function playElement(id) {
   id = (typeof id === "string") ? id.replace("e:", "").trim() : String(id);
   try {
     await syrinscape.player.controlSystem.startElements([id]);
-    ui.syrinscapeBrowser.render({ parts: ["results"] });
     return true;
   } catch (err) {
     console.warn(err);
@@ -91,7 +89,6 @@ export async function stopElement(id) {
   id = (typeof id === "string") ? id.replace("e:", "").trim() : String(id);
   try {
     await syrinscape.player.controlSystem.stopElements([id]);
-    ui.syrinscapeBrowser.render({ parts: ["results"] });
     return true;
   } catch (err) {
     console.warn(err);
@@ -110,7 +107,6 @@ export async function playMood(id) {
   id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
   try {
     await syrinscape.player.controlSystem.startMood(id);
-    ui.syrinscapeBrowser.render({ parts: ["results"] });
     return true;
   } catch (err) {
     console.warn(err);
@@ -129,7 +125,6 @@ export async function stopMood(id) {
   id = (typeof id === "string") ? id.replace("m:", "").trim() : String(id);
   try {
     await syrinscape.player.controlSystem.stopMood(id);
-    ui.syrinscapeBrowser.render({ parts: ["results"] });
     return true;
   } catch (err) {
     console.warn(err);
