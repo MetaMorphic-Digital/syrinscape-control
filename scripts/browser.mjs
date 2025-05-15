@@ -4,9 +4,9 @@ import { currentlyPlaying, stopElement, stopMood } from "./api.mjs";
 
 /** @import { SyrinCollection } from "./api.mjs" */
 
-const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
+const { HandlebarsApplicationMixin, Application } = foundry.applications.api;
 
-export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(ApplicationV2) {
+export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Application) {
   /** @inheritdoc */
   static DEFAULT_OPTIONS = {
     id: "syrinscape-browser",
@@ -24,7 +24,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     },
     actions: {
       burger: SyrinscapeBrowser.#onClickBurger,
-      play: SyrinscapeBrowser.#onClickPlay,
+      toggle: SyrinscapeBrowser.#onClickPlay,
+      resetFilter: SyrinscapeBrowser.#resetFilter,
       bulkDataRefresh: SyrinscapeBrowser.#bulkDataRefresh,
       stopSounds: SyrinscapeBrowser.#stopAllSounds,
       createPlaylist: SyrinscapeBrowser.#createPlaylist,
@@ -115,7 +116,11 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @returns {object[]}
    */
   #getNextBatch() {
-    return [...this.#batches.next().value ?? []];
+    return [...this.#batches.next().value ?? []].map(result => {
+      result.numericId = Number(result.id.split(":").at(-1));
+      result.playing = syrinscapeControl.storage.isPlaying(result.id);
+      return result;
+    });
   }
 
   /* -------------------------------------------------- */
@@ -278,7 +283,8 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /** @inheritdoc */
   changeTab(tab, group, { event, navElement, force = false, updatePosition = true } = {}) {
     super.changeTab(tab, group, { event, navElement, force, updatePosition });
-    this.#filterModel.resetFilter(),
+    // only one-shots have subtypes so this should never be preserved on tab switch
+    this.#filterModel.updateSource({ subtype: [] });
     this.render({
       tab,
       parts: ["filters", "results"],
@@ -323,19 +329,34 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Play a sound.
+   * Start or stop a sound.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
    */
-  static #onClickPlay(event, target) {
+  static async #onClickPlay(event, target) {
     const id = target.closest(".entry").dataset.id;
-    // TODO: the play button should change if the mood/element is currently playing
+    const isPlaying = syrinscapeControl.storage.isPlaying(id);
     if (this.tabGroups.primary === "moods") {
-      syrinscapeControl.utils.playMood(id);
+      if (isPlaying) await syrinscapeControl.utils.stopMood(id);
+      else await syrinscapeControl.utils.playMood(id);
     } else {
-      syrinscapeControl.utils.playElement(id);
+      if (isPlaying) await syrinscapeControl.utils.stopElement(id);
+      else await syrinscapeControl.utils.playElement(id);
     }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Resets the filter.
+   * @this {SyrinscapeBrowser}
+   * @param {PointerEvent} event    Initiating click event.
+   * @param {HTMLElement} target    The element that defined the [data-action].
+   */
+  static async #resetFilter(event, target) {
+    this.#filterModel.resetFilter();
+    this.render();
   }
 
   /* -------------------------------------------------- */
@@ -387,7 +408,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   static async #createPlaylist(event, target) {
     this.#creatingPlaylist = true;
-    await this.render({ parts: ["results"] });
+    this.element.classList.add("create-playlist");
   }
 
   /* -------------------------------------------------- */
@@ -400,7 +421,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   static async #cancelPlaylistCreation(event, target) {
     this.#creatingPlaylist = false;
-    await this.render({ parts: ["results"] });
+    this.element.classList.remove("create-playlist");
   }
 
   /* -------------------------------------------------- */
@@ -428,7 +449,10 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
         : CONST.PLAYLIST_MODES.DISABLED,
     });
     this.#creatingPlaylist = false;
-    await this.render({ parts: ["results"] });
+    this.element.classList.remove("create-playlist");
+    this.element.querySelectorAll("input.playlist-create").forEach(box => {
+      box.checked = false;
+    });
   }
 
   /* -------------------------------------------------- */

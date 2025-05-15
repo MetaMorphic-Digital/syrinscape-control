@@ -3,9 +3,15 @@
     {{#each filters}}
     {{formGroup field value=value options=options}}
     {{/each}}
-  <button type="button" data-action="bulkDataRefresh">
-    <i class="fa-solid fa-arrows-rotate"></i>
-    {{localize "SYRINSCAPE.BROWSER.REFRESHDATA.label"}}
-  </button>
+  <div class="flexrow filter-controls">
+    <button type="button" data-action="resetFilter">
+      <i class="fa-solid fa-filter-slash"></i>
+      {{localize "SYRINSCAPE.FILTERS.ACTIONS.clear"}}
+    </button>
+    <button type="button" data-action="bulkDataRefresh">
+      <i class="fa-solid fa-arrows-rotate"></i>
+      {{localize "SYRINSCAPE.BROWSER.REFRESHDATA.label"}}
+    </button>
+  </div>
   </fieldset>
 </section>
