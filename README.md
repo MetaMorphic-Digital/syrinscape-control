@@ -30,3 +30,9 @@ The Syrinscape browser acccessed through the Playlist tab allows you to create c
 To the left of each mood or one-shot in the browser is a draggable element. You can drag this onto your hotbar to create a utility macro for playing this single sound. Good for on-demand sound effects!
 
 To reduce clutter, all macros created this way are stored in an automatically generated folder named "Syrinscape" in your macro directory to the right.
+
+### Website
+
+A tool is added to the AmbientSound canvas layer in left-side controls. This takes you to the Syrinscape website for direct customization.
+
+![image](/assets/website.png)
