@@ -1,6 +1,6 @@
 # Syrinscape Controller
 
-Control and play syrinscape elements within Foundry.
+A spiritual successor to Wojtek Polak's (Frondeus) [SyrinControl](https://foundryvtt.com/packages/fvtt-syrin-control), this module allows you to control and play syrinscape elements within Foundry.
 
 ### How to use
 
