@@ -1,3 +1,5 @@
+import {moduleId} from "./constants.mjs";
+
 /**
  * @typedef {object} SoundsetData
  * @property {number} _id     Internal id of the sound set.
@@ -309,4 +311,50 @@ export class SyrinCollection extends foundry.utils.Collection {
    * @type {object[]}
    */
   #elements = [];
+}
+
+/* -------------------------------------------------- */
+
+/**
+ * Create a macro for a sound. If the folder for the macros does not exist, this is created as well.
+ * @param {string} name         The name of the sound.
+ * @param {string} soundType    The sound type ("mood", else element).
+ * @param {number} soundId      The id of the sound.
+ * @returns {Promise<foundry.documents.Macro>}    A promise that resolves to a creatd macro.
+ */
+export async function createHotbarMacro(name, soundType, soundId) {
+  let command;
+  let macroName;
+
+  switch (soundType) {
+    case "mood":
+      command = `syrinscapeControl.utils.playMood(${soundId})`;
+      macroName = `Mood: ${name}`;
+      break;
+    default:
+      command = `syrinscapeControl.utils.playElement(${soundId})`;
+      macroName = `Element: ${name}`;
+      break;
+  }
+
+  const folder = game.macros.folders.find(folder => {
+    return folder.getFlag(moduleId, "macro");
+  }) ?? await getDocumentClass("Folder").create({
+    name: "Syrinscape",
+    type: "Macro",
+    "flags.syrinscape-control.macro": true,
+  });
+
+  const macro = game.macros.find(macro => {
+    return (macro.name === name) && (macro.command === command);
+  }) ?? await getDocumentClass("Macro").create({
+    command,
+    name: macroName,
+    img: "icons/svg/sound.svg",
+    type: "script",
+    "flags.syrinscape-control.macro": soundType,
+    folder: folder.id,
+  });
+
+  return macro;
 }

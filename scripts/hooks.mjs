@@ -177,36 +177,10 @@ export function hotbarDrop(hotbar, drop, slot) {
 async function _createHotbarMacro(hotbar, drop, slot) {
   const { soundType, soundId } = foundry.utils.getProperty(drop, "data.flags.syrinscape-control");
 
-  let command;
-  let name;
-  switch (soundType) {
-    case "mood":
-      command = `syrinscapeControl.utils.playMood(${soundId})`;
-      name = `Mood: ${drop.data.name}`;
-      break;
-    default:
-      command = `syrinscapeControl.utils.playElement(${soundId})`;
-      name = `Element: ${drop.data.name}`;
-      break;
-  }
-
-  const folder = game.macros.folders.find(folder => {
-    return folder.getFlag(moduleId, "macro");
-  }) ?? await getDocumentClass("Folder").create({
-    name: "Syrinscape",
-    type: "Macro",
-    "flags.syrinscape-control.macro": true,
-  });
-
-  const macro = game.macros.find(macro => {
-    return (macro.name === name) && (macro.command === command);
-  }) ?? await getDocumentClass("Macro").create({
-    name, command,
-    img: "icons/svg/sound.svg",
-    type: "script",
-    "flags.syrinscape-control.macro": soundType,
-    folder: folder.id,
-  });
-
+  const macro = await syrinscapeControl.utils.createHotbarMacro(
+    drop.data.name,
+    soundType,
+    soundId,
+  );
   game.user.assignHotbarMacro(macro, slot);
 }

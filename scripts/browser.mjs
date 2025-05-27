@@ -513,10 +513,13 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       },
       {
         name: "SYRINSCAPE.BROWSER.CONTEXTMENU.macro",
-        condition: li => false && game.user.can("MACRO_SCRIPT"), // TODO
+        condition: li => game.user.can("MACRO_SCRIPT"),
         icon: "<i class='fa-solid fa-fw fa-code'></i>",
         callback: li => {
-          // TODO
+          const id = li.dataset.id.split(":").at(-1);
+          const type = isMoods() ? "mood" : "";
+          const name = li.dataset.name;
+          syrinscapeControl.utils.createHotbarMacro(name, type, id);
         },
       },
       {
