@@ -13,7 +13,7 @@ export default class SyrinscapeSettingsHandler {
         name: "SYRINSCAPE.SETTINGS.AUTH.name",
         hint: "SYRINSCAPE.SETTINGS.AUTH.hint",
         type: new StringField({ blank: false }),
-        scope: "client",
+        scope: "world",
         config: true,
         onChange: (value) => syrinscape.config.token = value,
       },
