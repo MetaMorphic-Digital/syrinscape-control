@@ -54,6 +54,16 @@
         "subtype": {
           "label": "Subtype"
         }
+      },
+      "OPTIONS": {
+        "boardgame": "Board Game",
+        "dungeons-and-dragons": "Dungeons & Dragons",
+        "general-fantasy": "General Fantasy",
+        "music": "Music",
+        "oneshot": "One-Shot",
+        "pathfinder": "Pathfinder",
+        "sci-fi": "Sci-Fi",
+        "sfx": "SFX"
       }
     },
     "SETTINGS": {

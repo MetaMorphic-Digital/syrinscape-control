@@ -234,16 +234,23 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {object} options    Rendering options.
    */
   async #preparePartFilters(context, options) {
-    const filters = [];
+    const filters = {};
 
     const cached = this.#filterModel.cached;
 
     for (const [k, v] of Object.entries(cached)) {
       const value = this.#filterModel[k];
-      const options = Array.from(v).map(v => ({ value: v, label: v }));
+      const options = Array.from(v).map(v => {
+        return {
+          value: v,
+          label: ["subcategory", "subtype"].includes(k)
+            ? game.i18n.localize(`SYRINSCAPE.FILTERS.OPTIONS.${v}`)
+            : v,
+        }
+      });
       if (k !== "soundset") options.sort((a, b) => a.label.localeCompare(b.label));
       const field = this.#filterModel.schema.getField(k);
-      filters.push({ value, options, field, name: k });
+      filters[k] = { value, options, field };
     }
 
     Object.assign(context, { filters });
