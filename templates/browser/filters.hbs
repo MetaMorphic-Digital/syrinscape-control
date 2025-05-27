@@ -1,7 +1,7 @@
 <section>
   <fieldset class="scrollable">
     {{#each filters}}
-    {{formGroup field value=value options=options}}
+    {{formGroup field value=value options=options classes=name}}
     {{/each}}
   <div class="flexrow filter-controls">
     <button type="button" data-action="resetFilter">

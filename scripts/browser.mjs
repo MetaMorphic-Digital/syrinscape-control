@@ -240,11 +240,10 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
 
     for (const [k, v] of Object.entries(cached)) {
       const value = this.#filterModel[k];
-      const options = Array.from(v)
-        .map(v => ({ value: v, label: v }))
-        .sort((a, b) => a.label.localeCompare(b.label));
+      const options = Array.from(v).map(v => ({ value: v, label: v }));
+      if (k !== "soundset") options.sort((a, b) => a.label.localeCompare(b.label));
       const field = this.#filterModel.schema.getField(k);
-      filters.push({ value, options, field });
+      filters.push({ value, options, field, name: k });
     }
 
     Object.assign(context, { filters });
@@ -259,9 +258,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   async #preparePartResults(context, options) {
     const filterData = this.#createFilterData({ moods: "mood", oneshots: "element" }[this.tabGroups.primary]);
-    const results = context.collection.getByProperty(filterData).contents
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .sort((a, b) => a.soundset.localeCompare(b.soundset));
+    const results = context.collection.getByProperty(filterData).contents;
 
     this.#batches = this.#segmentizeResults(results);
     Object.assign(context, { results: this.#getNextBatch() });

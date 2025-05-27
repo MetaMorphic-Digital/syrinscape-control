@@ -107,4 +107,9 @@
 
   &:not(.create-playlist) .playlist-create { display: none; }
   &.create-playlist .playlist-create-false { display: none; }
+
+  /* Hide 'subtype' filter on Moods tab. */
+  &:has(.sheet-tabs.tabs [data-tab=moods].active) [data-application-part=filters] .subtype {
+    display: none;
+  }
 }
