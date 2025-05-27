@@ -246,7 +246,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
           label: ["subcategory", "subtype"].includes(k)
             ? game.i18n.localize(`SYRINSCAPE.FILTERS.OPTIONS.${v}`)
             : v,
-        }
+        };
       });
       if (k !== "soundset") options.sort((a, b) => a.label.localeCompare(b.label));
       const field = this.#filterModel.schema.getField(k);
@@ -293,6 +293,20 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       tab,
       parts: ["filters", "results"],
     });
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _syncPartState(partId, newElement, priorElement, state) {
+    super._syncPartState(partId, newElement, priorElement, state);
+
+    if (partId !== "results") return;
+
+    for (const box of priorElement.querySelectorAll(".entry input[type=checkbox].playlist-create:checked")) {
+      const newBox = newElement.querySelector(`input[type=checkbox][value="${box.value}"]`);
+      if (newBox) newBox.checked = true;
+    }
   }
 
   /* -------------------------------------------------- */
@@ -442,7 +456,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       mode: (this.tabGroups.primary === "moods")
         ? CONST.PLAYLIST_MODES.SIMULTANEOUS
         : CONST.PLAYLIST_MODES.DISABLED,
-    });
+    }, { renderSheet: true });
     this.#creatingPlaylist = false;
     this.element.classList.remove("create-playlist");
     this.element.querySelectorAll("input.playlist-create").forEach(box => {
