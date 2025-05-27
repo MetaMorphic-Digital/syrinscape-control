@@ -390,16 +390,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {HTMLElement} target    The element that defined the [data-action].
    */
   static async #stopAllSounds(event, target) {
-    /** @type {import("@client/documents/playlist-sound.mjs").default[]} */
-    const syrinscapePlaylistSounds = ui.playlists._playing.sounds.filter(s => s.getFlag(moduleId, "soundId"));
-    const ids = new Set(syrinscapePlaylistSounds.map(s => Number(s.getFlag(moduleId, "soundId"))));
-
-    const candidateSounds = await currentlyPlaying();
-    for (const sound of candidateSounds) {
-      if (ids.has(Number(sound.id))) continue;
-      else if (sound.isMood) stopMood(sound.id);
-      else stopElement(sound.id);
-    }
+    syrinscapeControl.utils.stopAll();
   }
 
   /* -------------------------------------------------- */
