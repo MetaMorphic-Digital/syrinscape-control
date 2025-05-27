@@ -15,7 +15,7 @@ export default class SyrinscapeSettingsHandler {
         type: new StringField({ blank: false }),
         scope: "world",
         config: true,
-        onChange: (value) => syrinscape.config.token = value,
+        requiresReload: true,
       },
 
       sessionId: {
