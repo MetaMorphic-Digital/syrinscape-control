@@ -1,4 +1,4 @@
-import {moduleId} from "./constants.mjs";
+import { moduleId } from "./constants.mjs";
 
 /**
  * @typedef {object} SoundsetData
