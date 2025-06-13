@@ -5,7 +5,9 @@
   "scripts": {
     "build": "rollup -c rollup.config.mjs",
     "createSymlinks": "node ./tools/create-symlinks.mjs",
-    "postinstall": "npm run createSymlinks"
+    "postinstall": "npm run createSymlinks",
+    "lint": "eslint setup.mjs scripts/* templates/**/*",
+    "lint:fix": "eslint --fix setup.mjs scripts/* templates/**/*"
   },
   "repository": {
     "type": "git",
@@ -20,7 +22,12 @@
   },
   "homepage": "https://github.com/MetaMorphic-Digital/syrinscape-control",
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "@html-eslint/eslint-plugin": "^0.26.0",
+    "@html-eslint/parser": "^0.26.0",
+    "@stylistic/eslint-plugin": "^4.3.0",
+    "eslint": "^9.27.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1",
     "rollup": "^4.17.2"
   }
 }

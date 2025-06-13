@@ -1,4 +1,5 @@
-import "@client/global.mjs"
+import "@client/global.mjs";
+import "@common/primitives/global.mjs";
 import Canvas from "@client/canvas/board.mjs";
 
 // Foundry's use of `Object.assign(globalThis) means many globally available objects are not read as such

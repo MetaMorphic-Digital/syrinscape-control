@@ -7,15 +7,15 @@
     {{formGroup status.field value=status.value options=status.options type="checkboxes"}}
     {{formGroup subtype.field value=subtype.value options=subtype.options classes="subtype" type="checkboxes"}}
     {{/with}}
-  <div class="flexrow filter-controls">
-    <button type="button" data-action="resetFilter">
-      <i class="fa-solid fa-fw fa-filter-slash"></i>
-      {{localize "SYRINSCAPE.FILTERS.ACTIONS.clear"}}
-    </button>
-    <button type="button" data-action="bulkDataRefresh">
-      <i class="fa-solid fa-fw fa-arrows-rotate"></i>
-      {{localize "SYRINSCAPE.BROWSER.REFRESHDATA.label"}}
-    </button>
-  </div>
+    <div class="flexrow filter-controls">
+      <button type="button" data-action="resetFilter">
+        <i class="fa-solid fa-fw fa-filter-slash"></i>
+        {{localize "SYRINSCAPE.FILTERS.ACTIONS.clear"}}
+      </button>
+      <button type="button" data-action="bulkDataRefresh">
+        <i class="fa-solid fa-fw fa-arrows-rotate"></i>
+        {{localize "SYRINSCAPE.BROWSER.REFRESHDATA.label"}}
+      </button>
+    </div>
   </fieldset>
 </section>

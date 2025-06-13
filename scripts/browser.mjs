@@ -501,7 +501,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   #getSyrinscapeContextOptions() {
     const isMoods = () => this.tabGroups.primary === "moods";
-    const getEntry = li => this.#cachedCollection.get(li.dataset.id);
+    // const getEntry = li => this.#cachedCollection.get(li.dataset.id);
     const isPlaying = li => syrinscapeControl.storage.isPlaying(li.dataset.id);
 
     return [
@@ -536,14 +536,14 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
           syrinscapeControl.utils.createHotbarMacro(name, type, id);
         },
       },
-      {
-        name: "SYRINSCAPE.BROWSER.CONTEXTMENU.playlist",
-        condition: li => false && game.user.can("PLAYLIST_CREATE") && isMoods(), // TODO
-        icon: "<i class='fa-solid fa-fw fa-music'></i>",
-        callback: li => {
-          // TODO
-        },
-      },
+      // {
+      //   name: "SYRINSCAPE.BROWSER.CONTEXTMENU.playlist",
+      //   condition: li => false && game.user.can("PLAYLIST_CREATE") && isMoods(), // TODO
+      //   icon: "<i class='fa-solid fa-fw fa-music'></i>",
+      //   callback: li => {
+      //     // TODO
+      //   },
+      // },
     ];
   }
 
