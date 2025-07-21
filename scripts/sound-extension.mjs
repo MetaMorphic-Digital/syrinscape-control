@@ -37,7 +37,6 @@ export default class SyrinscapeSound extends foundry.audio.Sound {
     const [type, id] = this.src.split("/");
     if (type === "moods") syrinscapeControl.utils.playMood(id);
     else syrinscapeControl.utils.playElement(id);
-    console.log("Play!", this);
   }
 
   /* -------------------------------------------------- */
