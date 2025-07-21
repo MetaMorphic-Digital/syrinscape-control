@@ -30,6 +30,7 @@ export function renderPlaylistSoundConfig(app, html, context, options) {
     name: flagScope + "soundType",
     value: sound.getFlag(moduleId, "soundType"),
     options: soundTypes,
+    classes: ["slim"],
     localize: true,
   });
 
