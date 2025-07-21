@@ -1,14 +1,14 @@
 /**
- * Extension of the native Foundry Sound class to re-route key functions to the syrinscape API
+ * Extension of the native Foundry Sound class to re-route key functions to the syrinscape API.
  */
 export default class SyrinscapeSound extends foundry.audio.Sound {
   /**
    *
-   * @param {string} src     A syrinscape URL to feed into the SoundManager
+   * @param {string} src     A syrinscape URL to feed into the SoundManager.
    * @param {object} options
    */
   constructor(src, options = {}) {
-    /** The audio context for Syrinscape is *always* the Environment */
+    /** The audio context for Syrinscape is *always* the Environment. */
     options.context = game.audio.environment;
     super(src, options);
   }
@@ -16,7 +16,7 @@ export default class SyrinscapeSound extends foundry.audio.Sound {
   /* -------------------------------------------------- */
 
   /**
-   * Syrinscape sounds use neither buffers nor elements to decide if they are loaded
+   * Syrinscape sounds use neither buffers nor elements to decide if they are loaded.
    * @inheritdoc
    */
   get loaded() {

@@ -4,8 +4,8 @@ import { flagScope, moduleId, soundTypes } from "./constants.mjs";
  * A hook event that fires when some useful data is dropped onto the Canvas.
  * @event dropCanvasData
  * @category Canvas
- * @param {import("@client/canvas/board.mjs").default} canvas The Canvas
- * @param {object} data   The data that has been dropped onto the Canvas
+ * @param {import("@client/canvas/board.mjs").default} canvas The Canvas.
+ * @param {object} data   The data that has been dropped onto the Canvas.
  */
 export function dropCanvasData(canvas, data) {
   if (foundry.utils.getProperty(data, "data.flags.syrinscape-control.soundId")) return false;
@@ -14,7 +14,7 @@ export function dropCanvasData(canvas, data) {
 /* -------------------------------------------------- */
 
 /**
- * Add Syrinscape-specific inputs to the PlaylistSoundConfig app
+ * Add Syrinscape-specific inputs to the PlaylistSoundConfig app.
  * @param {InstanceType<foundry["applications"]["sheets"]["PlaylistSoundConfig"]>} app
  * @param {HTMLElement} html
  * @param {object} context
@@ -62,7 +62,7 @@ export function renderPlaylistSoundConfig(app, html, context, options) {
 /* -------------------------------------------------- */
 
 /**
- * Add Syrinscape-specific inputs to the AmbientSoundConfig app
+ * Add Syrinscape-specific inputs to the AmbientSoundConfig app.
  * @param {InstanceType<foundry["applications"]["sheets"]["AmbientSoundConfig"]>} app
  * @param {HTMLElement} html
  * @param {object} context
@@ -114,10 +114,10 @@ export function renderAmbientSoundConfig(app, html, context, options) {
 
 /**
  * Add a button for GMs to open the Syrinscape browser.
- * @param {PlaylistDirectory} directory The playlist directory
+ * @param {PlaylistDirectory} directory The playlist directory.
  * @param {HTMLElement} element         The application element.
- * @param {object} context              context used to render the directory
- * @param {object} options              Render Options
+ * @param {object} context              Context used to render the directory.
+ * @param {object} options              Render Options.
  */
 export function renderPlaylistDirectory(directory, element, context, options) {
   if (!game.user.isGM) return;
