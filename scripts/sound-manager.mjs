@@ -45,7 +45,7 @@ export default class SoundManager {
   /* -------------------------------------------------- */
 
   /**
-   * Fetches all available sound data from Syrinscape
+   * Fetches all available sound data from Syrinscape.
    * @returns {Promise<Record<string, string | null>[]>}
    */
   async bulkData() {

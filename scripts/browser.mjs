@@ -150,6 +150,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @type {SyrinCollection|null}
    */
   #cachedCollection = null;
+  // eslint-disable-next-line @jsdoc/require-jsdoc
   get collection() {
     return this.#cachedCollection;
   }
@@ -165,7 +166,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Tracks whether the results tab is drag and drop or checkboxes
+   * Tracks whether the results tab is drag and drop or checkboxes.
    * @type {boolean}
    */
   #creatingPlaylist = false;
@@ -230,7 +231,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
 
   /**
    * Prepare context for template part.
-   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} context    Rendering context. **will be mutated**.
    * @param {object} options    Rendering options.
    */
   async #preparePartFilters(context, options) {
@@ -260,7 +261,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
 
   /**
    * Prepare context for template part.
-   * @param {object} context    Rendering context. **will be mutated**
+   * @param {object} context    Rendering context. **will be mutated**.
    * @param {object} options    Rendering options.
    */
   async #preparePartResults(context, options) {
@@ -380,7 +381,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Open a dialog to refresh the available sounds
+   * Open a dialog to refresh the available sounds.
    * @this {SyrinscapeBrowser}
    * @param {PointerEvent} event    Initiating click event.
    * @param {HTMLElement} target    The element that defined the [data-action].
@@ -593,7 +594,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Maps an entry's data to the create data for a PlaylistSound
+   * Maps an entry's data to the create data for a PlaylistSound.
    * @param {string} name       The name of the sound.
    * @param {string} entryId    The entry ID, in the format of `m:number` or `e:number`.
    * @returns {import("@common/documents/_types.mjs").PlaylistSoundData}

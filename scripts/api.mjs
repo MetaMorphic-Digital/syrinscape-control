@@ -18,7 +18,7 @@ import { moduleId } from "./constants.mjs";
  * @property {object} soundset        The parent soundset.
  * @property {string} soundset.name   The parent soundset's human-readable label.
  * @property {string} soundset.url    The parent soundset's url.
- * @property {string} name            Human-readable label of a sound element. *
+ * @property {string} name            Human-readable label of a sound element.
  * @property {string} url             The url of the sound.
  */
 
@@ -187,7 +187,7 @@ export async function retrieveElements(uuid) {
 
 /**
  * Get all moods currently playing.
- * @param {string} [modelName]    Model name to filter by, e.g. "SFXElement" or "Mood"
+ * @param {string} [modelName]    Model name to filter by, e.g. "SFXElement" or "Mood".
  * @returns {Promise<Array<{id: number; label: string; isMood: boolean}>>}   A promise that resolves to an array of objects,
  *                                each with the id and human-readable label.
  */

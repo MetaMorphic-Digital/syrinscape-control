@@ -31,7 +31,7 @@ export default class SyrinscapeStorage {
 
   /**
    * Perform initialization of sound data.
-   * @param {boolean} [reset=false] Whether to re-download the bulk data and reset the available lists
+   * @param {boolean} [reset=false] Whether to re-download the bulk data and reset the available lists.
    * @returns {Promise<boolean|void>}   Whether initialization was successful.
    */
   async initializeSoundData(reset = false) {
