@@ -95,6 +95,18 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
+   * Icons used for the display of one shots. Always prepended by fa-fw.
+   * @type {Record<string, string>}
+   */
+  static RESULT_ICONS = {
+    music: "fa-solid fa-music",
+    sfx: "fa-solid fa-waveform-lines",
+    oneshot: "fa-solid fa-bullseye",
+  };
+
+  /* -------------------------------------------------- */
+
+  /**
    * Found results segmented into batches of size equal to #BATCH_SIZE.
    * This property is re-assigned each time 'results' is re-rendered.
    * @type {Generator}
@@ -117,6 +129,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    */
   #getNextBatch() {
     return [...this.#batches.next().value ?? []].map(result => {
+      result.icon = this.constructor.RESULT_ICONS[result.sub_type];
       result.numericId = Number(result.id.split(":").at(-1));
       result.playing = syrinscapeControl.storage.isPlaying(result.id);
       return result;
