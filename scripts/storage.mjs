@@ -161,6 +161,14 @@ export default class SyrinscapeStorage {
     switch (type) {
       case "sample":
         this.#playingSamples.delete(details.elementId);
+        // Cancel one shots after they expire
+        if (this.soundData.get(`e:${details.elementId}`)?.sub_type === "oneshot") {
+          for (const list of game.playlists) {
+            // Using == because Syrinscape passes back strings
+            const matches = list.sounds.filter(s => s.getFlag(moduleId, "soundId") == details.elementId);
+            if (matches.length) list.updateEmbeddedDocuments("PlaylistSound", matches.map(s => ({ _id: s.id, playing: false })));
+          }
+        }
         break;
       case "element":
         this.#playingElements.delete(details.elementId);

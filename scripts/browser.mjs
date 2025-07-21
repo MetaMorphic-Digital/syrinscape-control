@@ -1,6 +1,5 @@
 import { moduleId } from "./constants.mjs";
 import SyrinscapeFilterModel from "./browser-filter-model.mjs";
-import { currentlyPlaying, stopElement, stopMood } from "./api.mjs";
 
 /** @import { SyrinCollection } from "./api.mjs" */
 
