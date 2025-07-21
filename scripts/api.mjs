@@ -18,7 +18,7 @@ import { moduleId } from "./constants.mjs";
  * @property {object} soundset        The parent soundset.
  * @property {string} soundset.name   The parent soundset's human-readable label.
  * @property {string} soundset.url    The parent soundset's url.
- * @property {string} name            Human-readable label of a sound element. *.
+ * @property {string} name            Human-readable label of a sound element..
  * @property {string} url             The url of the sound.
  */
 

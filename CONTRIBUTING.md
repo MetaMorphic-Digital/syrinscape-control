@@ -43,18 +43,18 @@ To contribute code, [fork this project](https://docs.github.com/en/get-started/q
 
 ### Style
 
-Please attempt to follow code style present throughout the project. An ESLint profile is included to help with maintaining a consistent code style. All warnings presented by the linter should be resolved before an PR is submitted.
+Please attempt to follow code style present throughout the project. An ESLint profile is included to help with maintaining a consistent code style. All warnings presented by the linter should be resolved before a PR is submitted.
 
 - `npm run lint` - Run the linter and display any issues found.
 - `npm run lint:fix` - Automatically fix any code style issues that can be fixed.
 
 ### Linked Issues
 
-Before (or alongside) submitting an PR, we ask that you open a feature request issue. This will let us discuss the approach and prioritization of the proposed change.
+Before (or alongside) submitting a PR, we ask that you open a feature request issue. This will let us discuss the approach and prioritization of the proposed change.
 
 If you want to work on an existing issue, leave a comment saying you're going to work on the issue so that other contributors know not to duplicate work. Similarly, if you see an issue is assigned to someone, that member of the team has made it known they are working on it.
 
-When you open an PR it is recommended to [link it to an open issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). Include which issue it resolves by putting something like this in your description:
+When you open a PR it is recommended to [link it to an open issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue). Include which issue it resolves by putting something like this in your description:
 
 ```text
 Closes #32
@@ -65,8 +65,8 @@ Closes #32
 PRs have a few phases:
 
 0. **Prioritization.** If the PR relates to the current milestone, it is assigned to that milestone.
-1. **Initial Review from the Draw Steel contributor team.** This lets us spread out the review work and catch some of the more obvious things that need to be fixed before final review. Generally this talks about code style and some methodology.
-2. **Final Review from the Maintainers.** ChaosOS and Zhell have final review and are the only ones with merge permission.
+1. **Initial Review from the MetaMorphic team.** This lets us spread out the review work and catch some of the more obvious things that need to be fixed before final review. Generally this talks about code style and some methodology.
+2. **Final Review from the Maintainers.** The team members at MetaMorphic have final review and are the only ones with merge permission.
 
 #### PR Size
 
