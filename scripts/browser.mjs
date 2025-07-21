@@ -69,7 +69,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     primary: {
       tabs: [
         { id: "moods" },
-        { id: "oneshots" },
+        { id: "elements" },
       ],
       initial: "moods",
       labelPrefix: "SYRINSCAPE.BROWSER.TABS",
@@ -278,7 +278,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
    * @param {object} options    Rendering options.
    */
   async #preparePartResults(context, options) {
-    const filterData = this.#createFilterData({ moods: "mood", oneshots: "element" }[this.tabGroups.primary]);
+    const filterData = this.#createFilterData({ moods: "mood", elements: "element" }[this.tabGroups.primary]);
     const results = context.collection.getByProperty(filterData).contents;
 
     this.#batches = this.#segmentizeResults(results);
@@ -510,7 +510,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /* -------------------------------------------------- */
 
   /**
-   * Prepare context menu options for the moods and oneshots lists.
+   * Prepare context menu options for the moods and elements lists.
    * @returns {object[]}    Context menu options.
    */
   #getSyrinscapeContextOptions() {
