@@ -5,7 +5,13 @@
   </a>
   <input type="checkbox" class="playlist-create" value="{{id}}-{{name}}" name="playlistSounds">
   <h4 class="title">
-    <span class="name">{{name}}</span>
+
+    <span class="name">
+      {{#if icon}}
+      <i class="fa-fw {{icon}}"></i>
+      {{/if}}
+      {{name}}
+    </span>
     <span class="soundset">{{soundset}}</span>
   </h4>
   <div class="controls">
