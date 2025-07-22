@@ -271,7 +271,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
           label,
         };
       });
-      if ((k !== "soundset") || syrinscapeControl.storage.soundSets) options.sort((a, b) => a.label.localeCompare(b.label));
+      if (k !== "soundset") options.sort((a, b) => a.label.localeCompare(b.label));
       const field = this.#filterModel.schema.getField(k);
       filters[k] = { value, options, field };
     }

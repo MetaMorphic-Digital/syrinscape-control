@@ -105,6 +105,7 @@ export default class SyrinscapeStorage {
 
   /**
    * Loads up soundset data.
+   * @param {boolean} [reset=false]   Whether to reload the list of soundsets.
    */
   async loadSoundSets(reset = false) {
     if (!game?.ready) {
@@ -134,6 +135,7 @@ export default class SyrinscapeStorage {
 
   /**
    * Private collection.
+   * @type {foundry.utils.Collection<number, SoundsetData> | null}
    */
   #soundsets = null;
 
