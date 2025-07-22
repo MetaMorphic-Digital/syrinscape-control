@@ -22,11 +22,11 @@ export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
   /** @inheritdoc */
   static defineSchema() {
     return {
-      product: new SetField(new StringField()),
-      soundset: new SetField(new StringField()),
-      status: new SetField(new StringField()),
-      subcategory: new SetField(new StringField()),
-      subtype: new SetField(new StringField()),
+      product: new syrinscapeControl.data.fields.ListSetField(),
+      soundset: new syrinscapeControl.data.fields.ListSetField(),
+      status: new syrinscapeControl.data.fields.ListSetField(),
+      subcategory: new syrinscapeControl.data.fields.ListSetField(),
+      subtype: new syrinscapeControl.data.fields.ListSetField(),
     };
   }
 
@@ -122,6 +122,7 @@ export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
    * @type {Record<string, Set<string>>}
    */
   get cached() {
+    /** @type {Record<string, Set<string>>} */
     const data = {
       product: this.#product,
       soundset: this.#soundset,
@@ -131,6 +132,8 @@ export default class SyrinscapeFilterModel extends foundry.abstract.DataModel {
     };
 
     if (!this.#cached) {
+      // Clear out any existing caching.
+      for (const k in data) data[k].clear();
 
       // Populate caching.
       for (const entry of this.#application.collection) {

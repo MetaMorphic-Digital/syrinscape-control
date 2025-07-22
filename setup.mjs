@@ -7,12 +7,16 @@ import registerSyrinscapePlaylistSound from "./scripts/playlist-sound.mjs";
 import { moduleId } from "./scripts/constants.mjs";
 import * as hooks from "./scripts/hooks.mjs";
 import * as utils from "./scripts/api.mjs";
+import * as fields from "./scripts/fields.mjs";
+
+window.customElements.define(fields.HTMLStringTagsListElement.tagName, fields.HTMLStringTagsListElement);
 
 globalThis.syrinscapeControl = {
   applications: {
     SyrinscapeBrowser,
   },
   data: {
+    fields,
     SyrinscapeFilterModel,
     SyrinscapeStorage,
   },

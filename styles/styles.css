@@ -112,4 +112,21 @@
   &:has(.sheet-tabs.tabs [data-tab=moods].active) [data-application-part=filters] .subtype {
     display: none;
   }
+
+  /* Custom element styling copied from string-tags core styling. */
+  string-tags-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+
+    > input {
+      flex: 1;
+    }
+
+    > button.icon {
+      flex-basis: 36px;
+    }
+  }
 }
