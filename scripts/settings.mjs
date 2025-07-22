@@ -1,6 +1,6 @@
 import { moduleId } from "./constants.mjs";
 
-const { ObjectField, StringField, TypedObjectField } = foundry.data.fields;
+const { ArrayField, ObjectField, StringField, TypedObjectField } = foundry.data.fields;
 
 export default class SyrinscapeSettingsHandler {
   /**
@@ -28,6 +28,13 @@ export default class SyrinscapeSettingsHandler {
 
       bulkData: {
         type: new TypedObjectField(new ObjectField()),
+        scope: "world",
+        config: false,
+        onChange: () => ui.syrinscapeBrowser.render(),
+      },
+
+      soundsetInfo: {
+        type: new ArrayField(new ObjectField()),
         scope: "world",
         config: false,
         onChange: () => ui.syrinscapeBrowser.render(),

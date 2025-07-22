@@ -131,6 +131,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
       result.icon = this.constructor.RESULT_ICONS[result.sub_type];
       result.numericId = Number(result.id.split(":").at(-1));
       result.playing = syrinscapeControl.storage.isPlaying(result.id);
+      result.soundsetName = syrinscapeControl.storage.soundSets?.getName(result.soundset)?.fullName ?? result.soundset;
       return result;
     });
   }
@@ -254,11 +255,20 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     for (const [k, v] of Object.entries(cached)) {
       const value = this.#filterModel[k];
       const options = Array.from(v).map(v => {
+        let label;
+        switch (k) {
+          case "subcategory":
+          case "subtype":
+            label = game.i18n.localize(`SYRINSCAPE.FILTERS.OPTIONS.${v}`);
+            break;
+          case "soundset":
+            label = syrinscapeControl.storage.soundSets?.getName(v)?.fullName ?? v;
+            break;
+          default: label = v;
+        }
         return {
           value: v,
-          label: ["subcategory", "subtype"].includes(k)
-            ? game.i18n.localize(`SYRINSCAPE.FILTERS.OPTIONS.${v}`)
-            : v,
+          label,
         };
       });
       if (k !== "soundset") options.sort((a, b) => a.label.localeCompare(b.label));

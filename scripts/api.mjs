@@ -1,14 +1,6 @@
 import { moduleId } from "./constants.mjs";
 
 /**
- * @typedef {object} SoundsetData
- * @property {number} _id     Internal id of the sound set.
- * @property {string} name    Human-readable label of the sound set.
- * @property {string} url     The url of the sound set.
- * @property {string} uuid    The uuid of the sound set.
- */
-
-/**
  * @typedef {object} MoodData
  */
 
@@ -132,26 +124,6 @@ export async function stopMood(id) {
     console.warn(err);
     return false;
   }
-}
-
-/* -------------------------------------------------- */
-
-/**
- * Retrieve all soundsets.
- * @returns {Promise<Collection<number, SoundsetData>>}   A promise that resolves to a collection of soundset data.
- */
-export async function retrieveSoundSets() {
-  const sets = await syrinscapeControl.sound.listSoundSets();
-  const collection = new foundry.utils.Collection();
-  for (const set of sets) {
-    collection.set(set.id, {
-      _id: set.id,
-      name: set.name,
-      url: set.url,
-      uuid: set.uuid,
-    });
-  }
-  return collection;
 }
 
 /* -------------------------------------------------- */
