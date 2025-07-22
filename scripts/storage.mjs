@@ -2,6 +2,15 @@ import { moduleId } from "./constants.mjs";
 
 /** @import { SyrinCollection } from "./api.mjs" */
 
+/**
+ * @typedef {object} SoundsetData
+ * @property {number} _id         Internal id of the sound set.
+ * @property {string} name        Name used by elements.
+ * @property {string} fullName    Human-readable label of the sound set.
+ * @property {string} url         The url of the sound set.
+ * @property {string} uuid        The uuid of the sound set.
+ */
+
 export default class SyrinscapeStorage {
   /**
    * Has sound data been initialized?
@@ -25,7 +34,7 @@ export default class SyrinscapeStorage {
    * Cached collection.
    * @type {SyrinCollection}
    */
-  #collection;
+  #collection = null;
 
   /* -------------------------------------------------- */
 
@@ -45,6 +54,9 @@ export default class SyrinscapeStorage {
       throw new Error("The sound data has already been initialized!");
     }
 
+    // not awaiting so this can run in parallel
+    this.loadSoundSets(reset);
+
     const SETTING = "bulkData";
 
     /** @type {Record<string, string | null>[]} */
@@ -57,6 +69,8 @@ export default class SyrinscapeStorage {
           return acc;
         }, {});
         await game.settings.set(moduleId, SETTING, data);
+
+        this.#collection = null;
 
         ui.notifications.success("SYRINSCAPE.BulkDataRequest.Success", { localize: true });
 
@@ -85,6 +99,64 @@ export default class SyrinscapeStorage {
       collection.set(id, object);
     }
     return this.#collection = collection;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Loads up soundset data.
+   */
+  async loadSoundSets(reset = false) {
+    if (!game?.ready) {
+      Hooks.once("ready", () => this.loadSoundSets(reset));
+      return;
+    }
+    if (!game.user?.isActiveGM) return;
+
+    if (this.#soundsets && !reset) {
+      throw new Error("The soundsets have already been initialized!");
+    }
+
+    await syrinscape.config.init();
+
+    const SETTING = "soundsetInfo";
+
+    let data = game.settings.get(moduleId, SETTING);
+    if (foundry.utils.isEmpty(data) || reset) {
+      data = await syrinscapeControl.sound.listSoundSets();
+      game.settings.set(moduleId, SETTING, data);
+
+      this.#soundsets = null;
+    }
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Private collection.
+   */
+  #soundsets = null;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * A reference to the soundsets information.
+   * @type {foundry.utils.Collection<number, SoundsetData>}
+   */
+  get soundSets() {
+    if (this.#soundsets) return this.#soundsets;
+    const data = game.settings.get(moduleId, "soundsetInfo");
+    const collection = new foundry.utils.Collection();
+    for (const soundset of data) {
+      collection.set(soundset.id, {
+        _id: soundset.id,
+        name: soundset.name,
+        fullName: soundset.full_name,
+        url: soundset.url,
+        uuid: soundset.uuid,
+      });
+    }
+    return this.#soundsets = collection;
   }
 
   /* -------------------------------------------------- */
