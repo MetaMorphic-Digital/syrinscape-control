@@ -51,6 +51,45 @@ export class HTMLStringTagsListElement extends foundry.applications.elements.HTM
   /* -------------------------------------------------- */
 
   /** @inheritdoc */
+  _activateListeners() {
+    this._primaryInput.addEventListener("keydown", this.#keyDown.bind(this));
+    super._activateListeners();
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Additional keyboard event listener attached prior to the super
+   * keyboard event, to make modifications to the input before submission.
+   * @param {KeyboardEvent} event
+   */
+  #keyDown(event) {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    event.stopPropagation();
+    const input = event.currentTarget.value?.slugify();
+    if (!input) return;
+    const option = this.#listOptions.find(option => {
+      return option.value.slugify() === input;
+    });
+    if (option) event.currentTarget.value = option.value;
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
+  _validateTag(tag) {
+    super._validateTag(tag);
+
+    const option = this.#listOptions.find(option => {
+      return option.value === tag;
+    });
+    if (!option) throw new Error(game.i18n.format("SYRINSCAPE.FILTERS.ERRORS.invalidValue", { value: tag }));
+  }
+
+  /* -------------------------------------------------- */
+
+  /** @inheritdoc */
   static create(config) {
     const { slug, value, list } = config;
     const tags = new this({ slug, values: value, list });
