@@ -469,10 +469,10 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     const fd = new foundry.applications.ux.FormDataExtended(this.form);
     const soundValues = fd.object.playlistSounds.filter(e => e);
     const sounds = soundValues.map(v => {
-      const [entryId, name] = v.split("-");
-      return this.#entryToPlaylistSound(name, entryId);
+      const [entryId, ...name] = v.split("-");
+      return this.#entryToPlaylistSound(name.join("-"), entryId);
     });
-    await foundry.documents.Playlist.create({
+    await foundry.documents.Playlist.implementation.create({
       sounds,
       name: game.i18n.localize("SYRINSCAPE.BROWSER.HINTS.playlist.new"),
       channel: "environment",
