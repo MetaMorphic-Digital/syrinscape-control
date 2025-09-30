@@ -9,12 +9,11 @@
     }
   ],
   "compatibility": {
-    "minimum": "13.339",
+    "minimum": "13.348",
     "verified": "13"
   },
   "esmodules": [
     "./setup.mjs",
-    "./lib/homePlayer.js",
     "./lib/integration.js",
     "./lib/player.js"
   ],
@@ -32,11 +31,13 @@
     "hotReload": {
       "extensions": [
         "css",
-        "hbs"
+        "hbs",
+        "json"
       ],
       "paths": [
         "styles",
-        "templates"
+        "templates",
+        "languages"
       ]
     }
   },
