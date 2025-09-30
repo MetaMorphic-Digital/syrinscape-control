@@ -301,11 +301,11 @@ export async function createHotbarMacro(name, soundType, soundId) {
   switch (soundType) {
     case "mood":
       command = `syrinscapeControl.utils.playMood(${soundId})`;
-      macroName = `Mood: ${name}`;
+      macroName = `M: ${name}`;
       break;
     default:
       command = `syrinscapeControl.utils.playElement(${soundId})`;
-      macroName = `Element: ${name}`;
+      macroName = `E: ${name}`;
       break;
   }
 
