@@ -62,9 +62,9 @@ export default class SyrinscapeStorage {
     /** @type {Record<string, string | null>[]} */
     let data = game.settings.get(moduleId, SETTING);
     if (foundry.utils.isEmpty(data) || reset) {
-      data = await syrinscapeControl.sound.bulkData();
-      if (data) {
-        data = data.reduce((acc, e) => {
+      const rawData = await syrinscapeControl.sound.bulkData();
+      if (rawData) {
+        data = rawData.reduce((acc, e) => {
           acc[e.id] = e;
           return acc;
         }, {});
