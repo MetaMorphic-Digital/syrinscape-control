@@ -11,7 +11,7 @@ export class HTMLStringTagsListElement extends foundry.applications.elements.HTM
    * The data list options.
    * @type {{value: string, label: string}[]}
    */
-  #listOptions;
+  _listOptions;
 
   /* -------------------------------------------------- */
 
@@ -36,12 +36,12 @@ export class HTMLStringTagsListElement extends foundry.applications.elements.HTM
     const [tags, input, button] = super._buildElements();
     input.setAttribute("list", this.#listId);
 
-    this.#listOptions = JSON.parse(this.getAttribute("listOptions"));
+    this._listOptions = JSON.parse(this.getAttribute("listOptions"));
     this.removeAttribute("listOptions");
 
     const list = this.#list = document.createElement("DATALIST");
     list.setAttribute("id", this.#listId);
-    for (const { value, label } of this.#listOptions) {
+    for (const { value, label } of this._listOptions) {
       list.insertAdjacentHTML("beforeend", `<option value="${value}">${label}</option>`);
     }
 
@@ -69,7 +69,7 @@ export class HTMLStringTagsListElement extends foundry.applications.elements.HTM
     event.stopPropagation();
     const input = event.currentTarget.value?.slugify();
     if (!input) return;
-    const option = this.#listOptions.find(option => {
+    const option = this._listOptions.find(option => {
       return option.value.slugify() === input;
     });
     if (option) event.currentTarget.value = option.value;
@@ -81,7 +81,9 @@ export class HTMLStringTagsListElement extends foundry.applications.elements.HTM
   _validateTag(tag) {
     super._validateTag(tag);
 
-    const option = this.#listOptions.find(option => {
+    if (!this._listOptions) return;
+
+    const option = this._listOptions.find(option => {
       return option.value === tag;
     });
     if (!option) throw new Error(game.i18n.format("SYRINSCAPE.FILTERS.ERRORS.invalidValue", { value: tag }));
