@@ -33,8 +33,8 @@ export class HTMLStringTagsListElement extends foundry.applications.elements.HTM
 
   /** @inheritdoc */
   _buildElements() {
-    const [tags, input, button] = super._buildElements();
-    input.setAttribute("list", this.#listId);
+    const [tags, group] = super._buildElements();
+    group.querySelector("input").setAttribute("list", this.#listId);
 
     this._listOptions = JSON.parse(this.getAttribute("listOptions"));
     this.removeAttribute("listOptions");
@@ -45,7 +45,7 @@ export class HTMLStringTagsListElement extends foundry.applications.elements.HTM
       list.insertAdjacentHTML("beforeend", `<option value="${value}">${label}</option>`);
     }
 
-    return [tags, input, button, this.#list];
+    return [tags, group, this.#list];
   }
 
   /* -------------------------------------------------- */

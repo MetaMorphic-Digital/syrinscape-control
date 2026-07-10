@@ -9,8 +9,8 @@
     }
   ],
   "compatibility": {
-    "minimum": "13.348",
-    "verified": "13"
+    "minimum": "14.364",
+    "verified": "14"
   },
   "esmodules": [
     "./setup.mjs",
