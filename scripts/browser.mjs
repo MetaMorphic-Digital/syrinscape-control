@@ -259,7 +259,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
         switch (k) {
           case "subcategory":
           case "subtype":
-            label = game.i18n.localize(`SYRINSCAPE.FILTERS.OPTIONS.${v}`);
+            label = _loc(`SYRINSCAPE.FILTERS.OPTIONS.${v}`);
             break;
           case "soundset":
             label = syrinscapeControl.storage.soundSets?.getName(v)?.fullName ?? v;
@@ -310,7 +310,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   /** @inheritdoc */
   changeTab(tab, group, { event, navElement, force = false, updatePosition = true } = {}) {
     super.changeTab(tab, group, { event, navElement, force, updatePosition });
-    // only one-shots have subtypes so this should never be preserved on tab switch
+    // Only one-shots have subtypes so this should never be preserved on tab switch.
     this.#filterModel.updateSource({ subtype: [] });
     this.render({
       tab,
@@ -411,8 +411,9 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
   static async #bulkDataRefresh(event, target) {
     const refresh = await foundry.applications.api.Dialog.confirm({
       window: { title: "SYRINSCAPE.BROWSER.REFRESHDATA.title" },
-      content: `<p>${game.i18n.localize("SYRINSCAPE.BROWSER.REFRESHDATA.content")}</p>`,
+      content: `<p>${_loc("SYRINSCAPE.BROWSER.REFRESHDATA.content")}</p>`,
       position: { width: 400 },
+      modal: true,
     });
 
     if (refresh) syrinscapeControl.storage.initializeSoundData(true);
@@ -474,7 +475,7 @@ export default class SyrinscapeBrowser extends HandlebarsApplicationMixin(Applic
     });
     await foundry.documents.Playlist.implementation.create({
       sounds,
-      name: game.i18n.localize("SYRINSCAPE.BROWSER.HINTS.playlist.new"),
+      name: _loc("SYRINSCAPE.BROWSER.HINTS.playlist.new"),
       channel: "environment",
       mode: (this.tabGroups.primary === "moods")
         ? CONST.PLAYLIST_MODES.SIMULTANEOUS
